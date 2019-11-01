@@ -1,54 +1,33 @@
-<!DOCTYPE html>
-<html>
-  <head>
-   <meta charset="UTF-8">
-    <title>Photo Store</title>
-    <link rel="stylesheet" href="app.css" type="text/css">
-  </head>
-  <body>
-    <div class="header">
-      <div class="imhold"><img alt="lo" id="poster" class="logiIm" src='/logo.png'></div>
-        <div class="navhold">
-        <div class="topnav">
-        <a href="/">Home</a>
-        <a href="#" >Products</a>
-        <a href="#"  >Add Product</a>
-        <a href="#">Events</a>
-  </div>
-</div>
-</div>
+<% include ../partials/header %>
 
-
-<div class="row">
-            <div class="holder">
+    <div class="container">
+                <h2>Photo Gallery</h2>
+            
+                <div class="row">
+                  
+                    <div class="column">
+                      <img src="/sunrisesh.jpg" alt="Sun Rise">
+                      <img src="/travelsh.jpg" alt="Travel">
+                      
+                   </div>
+                   <div class="column">
+                      <img src="/flowersh.jpg"  alt="Flowers">
+                      <img src="/treesh.jpg" alt="Trees">
+                      <img src="/housep.jpg" alt="House scene">
+                      
+                   </div>
+                  <div class="column">
+                    <img src="/scenesh.jpg" alt="Scenes">
+                    <img src="/desortsh.jpg" alt="Desort">
+            
+                  </div>
+                   <div class="column">
+                      <img src="/mountainsp.jpg" alt="Mountains">
+                      <img src="/snowp.jpg" alt="snow">
+                      
+                   </div>
+                  
+                </div>
+        </div>
     
-                  <div class="large">
-                  <h1>Running</h1>
-                  <h2>Accessories</h2>
-            </div>
-        
-    <div class="normal">
-        <h1>Swimming</h1>
-        <h2>Accessories</h2>
-        
-    </div>
-              
-    <div class="normal2">
-        <h1>Cycling</h1>
-        <h2>Accessories</h2>
-        
-    </div>
-    
-            </div>
-
-    </div>
-
-
-<div class="footer">
-  <p>Liams Node.js Application</p>
-<p>Images from Pixabay.com</p>
-</div>
-
-
-    </body>
-</html>
+ <% include ../partials/footer %>
