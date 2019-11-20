@@ -1,54 +1,53 @@
-<!DOCTYPE html>
-<html>
-  <head>
-   <meta charset="UTF-8">
-    <title>Photo Store</title>
-    <link rel="stylesheet" href="app.css" type="text/css">
-  </head>
-  <body>
-    <div class="header">
-      <div class="imhold"><img alt="lo" id="poster" class="logiIm" src='/logo.png'></div>
-        <div class="navhold">
-        <div class="topnav">
-        <a href="/">Home</a>
-        <a href="#" >Products</a>
-        <a href="#"  >Add Product</a>
-        <a href="#">Academic Section</a>
-  </div>
-</div>
-</div>
+<% include ../partials/header %>
 
 
-<div class="row">
-            <div class="holder">
-    
-                  <div class="large">
-                  <h1>testing</h1>
-                  <h2>Accessories</h2>
-            </div>
+
+ 
+  <div class="container">
+
+      
+    <h2>Contact Display Page</h2>
+    <br>
+    <div class="grid-container">
+   
+  
+
+  <% contact.forEach(function(contact) { %> 
+       
+      
+           <div class="item">
+               <h3 class="itemtitle">Id: <%= contact.id %></h3>
+               <p class="itemp"><b>Full Name: </b><%= contact.fullname %></p>
+               
+                <p class="itemp"><b>Email: </b><%= contact.email %></p> 
+                <p class="itemp"><b>Phone Number: </b><%= contact.phonenumber %></p> 
+                <p class="itemp"><b>Message: </b><%= contact.message %></p> 
+                <a href="/editcontact/<%= contact.id %>" class= "button">Edit</a>
+            
+                
+              <p class="button" id="doit<%= contact.id %>">Delete</p>
+              <p id="yes<%= contact.id %>" style="display:none">
+               Are you sure?
+              <a href="/deletecontact/<%= contact.id %>" class="button">Yes</a>
+              </p>
+             
+             <script>
+               $(document).ready(function(){
+                 $("#doit<%= contact.id %>").click(function(){
+                   $("#yes<%= contact.id %>").slideToggle(2000);
+                   
+                 })
+                 
+               })
+               
+             </script>
+               
+           </div>
+      
+       
+       <% }); %>
         
-    <div class="normal">
-        <h1>Swimming</h1>
-        <h2>Accessories</h2>
-        
+      </div>
     </div>
-              
-    <div class="normal2">
-        <h1>Cycling</h1>
-        <h2>Accessories</h2>
-        
-    </div>
-    
-            </div>
-
-    </div>
-
-
-<div class="footer">
-  <p>Liams Node.js Application</p>
-<p>Images from Pixabay.com</p>
-</div>
-
-
-    </body>
-</html>
+ 
+ <% include ../partials/footer %>

@@ -8,6 +8,7 @@ body{
   padding: 0;
   margin: 0;
 }
+
 .topwrap{
   width: 94%;
   margin: auto;
@@ -103,6 +104,30 @@ header a:hover{
   width: 96%;
   margin: auto;
   overflow: hidden;
+  text-align: left;
+}
+#backimage{
+  /*background-color: #555;*/
+  background-image: url("/photogsp.jpg");
+  background-position:center top;
+  background-size: cover;
+  text-align: center;
+  min-height:650px;
+  color: #fff;
+  -webkit-filter: grayscale(40%); /* Safari 6.0 - 9.0 */
+  filter: grayscale(40%);
+  
+}
+
+
+#backimage h1{
+    font-family: 'Beth Ellen', cursive;
+    padding-top: 1.2em;
+    min-height: 60px;
+    color: #f26c4f;
+    font-size: 2.5rem;
+    line-height: 1.5em;
+    margin: 0 !important;
 }
 .row {
     display: flex;
@@ -140,9 +165,168 @@ h2{
   padding: .1em;
   background-color: #969181;
   color: #ffffff;
-  margin-top: 32px;
+  /*margin-top: 32px;*/
   text-align: center;
 }
+
+/* Bordered form */
+form {
+  /*border: 3px solid #f1f1f1;*/
+  width: 100%;
+  text-align: center;
+}
+form .container{
+  width: 30%;
+}
+
+/* Full-width inputs */
+input[type=text], input[type=password], textarea {
+  width: 100%;
+  padding: 15px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  color: grey;
+}
+
+/* Set a style for all buttons */
+button {
+  background-color: #f26c4f;
+  color: white;
+  font-size: 1.1rem;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+/* Add a hover effect for buttons */
+button:hover {
+  opacity: 0.8;
+}
+
+button a {
+  color: #ffffff;
+  text-decoration: none;
+}
+/*.cancelbtn {*/
+/*  width: 100%;*/
+/*  padding: 10px 18px;*/
+/*  background-color: #f26c4f;*/
+/*}*/
+
+
+
+
+
+/* The "Forgot password" text */
+span.psw {
+  float: right;
+  padding-top: 2px;
+}
+h3.mid{
+  text-align: center;
+  text-decoration: underline;
+}
+
+h4 a{
+  color: grey;
+  text-decoration: none;
+}
+h4 a:hover{
+  color: black;
+  text-decoration: none;
+}
+.contentpart{
+  width: 17%;
+  height: 500px;
+  background-color: pink;
+}
+.container h2{
+  text-align: center;
+}
+.container h4{
+  margin: 2rem;
+}
+.wrap{
+  margin-Left: auto;
+  margin-right: auto;
+  width: 70%;
+  height: 480px;
+}
+p button{
+  width: 4rem;
+  padding: 6px;
+  border-radius: 4px;
+  
+}
+
+.title h2{
+  
+  text-align: center;
+}
+.titleinfo{
+  padding-left: 2rem;
+  text-align: left;
+  border-bottom: 3px solid grey;
+  width: 100%;
+  
+}
+.titleinfo span {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.containercontent{
+  width: 86%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.grid-container {
+  display: grid;
+  align-content: center;
+  grid-template-columns: auto auto auto;
+  grid-gap: 10px;
+ /* background-color: #2196F3;  Comment this out later to remove the background color when not needed */
+  padding: 10px;
+}
+
+
+.item {
+  /*background-color: rgba(202, 131, 34, 0.8);*/
+  background-color: #FAF0E6;
+  
+  text-align: center;
+  padding: .3em 0;
+ 
+}
+
+
+.itemtitle {
+   display: block;
+    color: #374760;
+    text-align: center;
+    padding: .3em 1em;
+    text-decoration: none;
+    font-size: 1.5rem;
+    
+}
+
+
+.itemp {
+   display: block;
+    color: #374760;
+    text-align: center;
+    padding: .1em .6em;
+    text-decoration: none;
+    font-size: 1.2rem;
+    
+}
+
+
 
 /* Responsive layout - makes a two column-layout instead of four columns */
 @media screen and (max-width: 900px) {
@@ -160,7 +344,7 @@ h2{
   }
 }
 .topwrap #logo img{
-    width: 50%;
+    width: 66%;
   }
   
  

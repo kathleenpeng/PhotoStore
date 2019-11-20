@@ -1,0 +1,30 @@
+[
+    {
+        "id": 1,
+        "fullname": "zhen peng",
+        "email": "hi this is a test on 4th Nov",
+        "phonenumber": "1234567",
+        "message": "hello, this is first test"
+    },
+    {
+        "id": 2,
+        "fullname": "Sara ryan",
+        "email": "ryan@gmail.com",
+        "phonenumber": "543211",
+        "message": "This is another test to see if it's working"
+    },
+    {
+        "id": 3,
+        "fullname": "Jenner taylor",
+        "email": "taylor@ncirl.ie",
+        "phonenumber": "09876543",
+        "message": "third test"
+    },
+    {
+        "id": 4,
+        "fullname": "Maria Ann Lee",
+        "email": "lee@hotmail.com",
+        "phonenumber": "0893333333",
+        "message": "this is fouth test to see if it's working well"
+    }
+]
