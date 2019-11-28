@@ -1,35 +1,32 @@
 <% include ../partials/header %>
+
+
+
 <div class="wrap">
 
-<div class="title"> 
-     
+   <div class="title"> 
         <h2>Profile </h2>
-    
+   </div> 
+     <div class="titleinfo"> 
+        <span>User Details</span>
      </div>
-     <div class="titleinfo"><span>User Details</span></div>
-      
+     
      <div class="containercontent">
-        <p>
-        <strong class="itemp">User ID: </strong><%= user.Id %><br>
-       
-        <strong class="itemp">User Name: </strong><%= user.username %>
-        <button class="submit">Edit</button>
-        </p>
-        <p>
-        <strong class="itemp">User Email: </strong><%= user.email %>
-        <button class="submit">Edit</button>
-        </p>
-        <p>
-        <strong class="itemp">Password: </strong><%= user.password %>
-        <button class="submit">Edit</button>
-        </p>
+                <p><strong class="itemp">User ID: </strong><%= user.Id %></p>
+                <p><strong class="itemp">User Name: </strong><%= user.username %>
+                <button class="submit">Edit</button></p>
+                <p><strong class="itemp">User Email: </strong><%= user.email %>
+                <button class="submit">Edit</button></p>
+                <p><strong class="itemp">Password: </strong><%= user.password %>
+                <button class="submit">Edit</button></p>
        
         </div>
+        <button><a href="/editprofile">Edit</a></button>
 
 <!-- LOCAL INFORMATION --> 
-    <div class="item">
-    <a href="/logout" class="button">Logout</a> 
-    </div>
+    
+       <button><a href="/logout">Logout</a></button>
+    
 
 </div>
 

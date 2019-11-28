@@ -1,28 +1,22 @@
 <% include ../partials/header %>
-<div class="container" style="text-align: center; ">
-  <h1>Welcome to the add products page</h1>  <br>
-  <div style="text-align: center; width: 100%; background-color: rgba(255, 255, 255, 0.8);text-align: center; margin-bottom: 10px;" >
-         <form accept-charset="UTF-8" style="display: inline-block; width: 90%;" action="/addproduct" method="post">
-                  
-                    
-                    <label for="image">Image</label> 
-                    <input name="image" type="text" placeholder="Enter image url" />
-                    <label for="author">Author</label>
-                    <input name="author" type="text" placeholder="Enter author name" />
-                    <label for="price">Price</label> 
-                    <input name="price" type="text" placeholder="Enter price" />
-                    <label for="name">Color</label>
-                    <input name="name" type="text" placeholder="Enter product name" />
-                    <label for="activity">Description</label>
-                    <input name="activity" type="text" placeholder="Enter activity" />
-                     
-       
-        <br><br>
- 
-<button class="button">Add</button>
-          </div>
-              </form>
-    </div>
+   <div class="title">
+              <h2>Add images page</h2>
+       </div>
   
-</div>
+  <!--<div style="text-align: center; width: 100%; background-color: rgba(255, 255, 255, 0.8);text-align: center; margin-bottom: 10px;" >-->
+         <form accept-charset="UTF-8" ref="uploadForm" action="/alluploadproducts" method="post" enctype="multipart/form-data">
+                  <div class="formgroup">
+                    <label for="title"><b>Title</b></label> 
+                    <input name="title" type="text" placeholder="Enter image title" />
+                    <label for="price"><b>Price</b></label> 
+                    <input name="price" type="text" placeholder="Enter price" />
+                    <label for="size"><b>Size</b></label>
+                    <input name="size" type="text" placeholder="Enter size" />
+                    <label for="activity"><b>Description</b></label>
+                    <input name="activity" type="text" placeholder="Enter activity" />
+                    <input class="button" type="file" name="sampleFile" />
+                    <button>Add</button>
+              </div>
+        </form>
+ 
 <% include ../partials/footer %>

@@ -1,35 +1,25 @@
 <% include ../partials/header %>
 
-
-
- 
   <div class="container">
 
-      
-    <h2>Contact Display Page</h2>
-    <br>
+    <h2>All Contacts Display Page</h2>
+ 
     <div class="grid-container">
-   
-  
 
-  <% contact.forEach(function(contact) { %> 
-       
-      
+     <% contact.forEach(function(contact) { %> 
            <div class="item">
-               <h3 class="itemtitle">Id: <%= contact.id %></h3>
-               <p class="itemp"><b>Full Name: </b><%= contact.fullname %></p>
-               
-                <p class="itemp"><b>Email: </b><%= contact.email %></p> 
-                <p class="itemp"><b>Phone Number: </b><%= contact.phonenumber %></p> 
-                <p class="itemp"><b>Message: </b><%= contact.message %></p> 
-                <a href="/editcontact/<%= contact.id %>" class= "button">Edit</a>
-            
-                
-              <p class="button" id="doit<%= contact.id %>">Delete</p>
-              <p id="yes<%= contact.id %>" style="display:none">
-               Are you sure?
-              <a href="/deletecontact/<%= contact.id %>" class="button">Yes</a>
-              </p>
+                  <h3 class="itemtitle">Id: <%= contact.id %></h3>
+                  <p class="itemp"><b>Full Name: </b><%= contact.fullname %></p><br>
+                  <p class="itemp"><b>Email: </b><%= contact.email %></p> <br>
+                  <p class="itemp"><b>Phone Number: </b><%= contact.phonenumber %></p> <br>
+                  <p class="itemp"><b>Message: </b><%= contact.message %></p> <br>
+                  <a href="/editcontact/<%= contact.id %>" class= "button">Edit</a>
+                  
+                  <p class="button" id="doit<%= contact.id %>">Delete</p>
+                  <p id="yes<%= contact.id %>" style="display:none">
+                   Are you sure?
+                  <a href="/deletecontact/<%= contact.id %>" class="button">Yes</a>
+                  </p>
              
              <script>
                $(document).ready(function(){

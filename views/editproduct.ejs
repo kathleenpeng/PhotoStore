@@ -1,0 +1,25 @@
+<% include ../partials/header %>
+     <div class="title">
+              <h2>Add images page</h2>
+     </div>
+     
+    <% result.forEach(function(product) { %>
+    
+         <form accept-charset="UTF-8" ref="uploadForm" action="/editproduct/<%= product.Id %>" method="post">
+                  <div class="formgroup">
+                    <label for="title"><b>Title</b></label> 
+                    <input name="title" type="text" value="<%= product.title %>"/>
+                    <label for="price"><b>Price</b></label> 
+                    <input name="price" type="text" value="<%= product.price %>"/>
+                    <label for="size"><b>Size</b></label>
+                    <input name="size" type="text" value="<%= product.size %>"/>
+                    <label for="activity"><b>Description</b></label>
+                    <input name="activity" type="text" value="<%= product.activity %>"/>
+                    <input class="button" type="file" name="sampleFile" value="<%= product.image_url %>"/>
+                   
+
+                    <button>Update</button>
+              </div>
+        </form>
+       <% }); %>
+<% include ../partials/footer %>

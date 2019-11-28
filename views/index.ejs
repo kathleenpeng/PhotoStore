@@ -1,10 +1,20 @@
 <% include ../partials/header %>
 
 
-        <section id="backimage">
-          <h1>Welcome to Photo Store</h1>
-          <h2>Collect or sell your photos here</h2>
-         </section>
+<section id="backimage">
+    <div class="container">
+      <h1>Welcome to Photo Store</h1>
+      <h2>Collect or sell your photos here</h2>
+      <div class="midcolumn">
+      <div class="search-container">
+        <form class="search" action="/action_page.php" style="margin:auto;max-width:300px">
+          <input type="text"  placeholder="search.." name="search">
+          <button type="submit"><i class="fas fa-search"></i></button>
+        </form>
+      </div>
+      </div>
+    </div>
+ </section>
         
     
  <% include ../partials/footer %>

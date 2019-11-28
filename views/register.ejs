@@ -1,29 +1,24 @@
 <% include ../partials/header %>
 
- 
+ <div class="title">
+   <h2>Create A New Account</h2>
+   <p>Please fill in the form to register</p>
+ </div>
   
  <form action="/register" method="post">
-  <div class="title">
-    <h2>Create A New Account</h2>
-   <p>Please fill in the form to register</p>
-  </div>
-  
-  <div class="container">
-     <label for="username"><b>User Name</b></label>
-    <input type="text" placeholder="Full Name" name="username" required>
-     <label for="email"><b>User Email</b></label>
-    <input type="text" placeholder="User Email" name="email" required>
-    <label for="password"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="password" required>
-   
-
-    <button type="submit">Register</button>
+    <div class="formgroup">
+       <label for="username"><b>User Name</b></label>
+       <input type="text" placeholder="Full Name" name="username" required>
+       <label for="email"><b>User Email</b></label>
+       <input type="text" placeholder="User Email" name="email" required>
+       <label for="password"><b>Password</b></label>
+       <input type="password" placeholder="Enter Password" name="password" required>
+       <button type="submit" onclick="sampleForm()">Register</button>
     </div>
-    
-
-  
-
 </form>
-        
+      
+      
+      
+     
     
  <% include ../partials/footer %>

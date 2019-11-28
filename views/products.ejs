@@ -1,33 +1,112 @@
 <% include ../partials/header %>
 
     <div class="container">
-                <h2>Photo Gallery</h2>
-            
-                <div class="row">
+        
+        <h2>Photo Gallery</h2>
+
+        <div id="myBtnContainer">
+                  <button class="btn active" onclick="filterSelection('all')"> Show all</button>
+                  <button class="btn" onclick="filterSelection('blue')"> Blue</button>
+                  <button class="btn" onclick="filterSelection('green')"> Green</button>
+                  <button class="btn" onclick="filterSelection('orange')"> Orange</button>
+                  <button class="btn" onclick="filterSelection('white')"> White</button>
+        </div>
+         
+        <div class="row">
                   
-                    <div class="column">
-                      <img src="/sunrisesh.jpg" alt="Sun Rise">
-                      <img src="/travelsh.jpg" alt="Travel">
+              <div class="column">
+                
+                      <img src="/sunrise.jpg" alt="Sun Rise" class="filterDiv hover sun orange">
+
+                      <div class="top-left">
+                          <p>Sun</p>
+                          <p>€9</p>
+                          <i class="fas fa-plus"></i>
+                       </div>
+                     <img src="/travel.jpg" alt="Travel" class="filterDiv travel blue"></a>
+                     <img src="/plant.jpg" alt="Plant" class="filterDiv plant green white"></a>
+
                       
                    </div>
                    <div class="column">
-                      <img src="/flowersh.jpg"  alt="Flowers">
-                      <img src="/treesh.jpg" alt="Trees">
-                      <img src="/housep.jpg" alt="House scene">
+                      <img src="/flower.jpg"  alt="Flowers" class="filterDiv flower pink">
+                      <img src="/tree.jpg" alt="Trees" class="filterDiv tree blue orange">
                       
+                    <img src="/house.jpg" alt="House scene" class="filterDiv house blue green">
+                      <img src="/forst.jpg" alt="Forst" class="filterDiv forst white">
                    </div>
                   <div class="column">
-                    <img src="/scenesh.jpg" alt="Scenes">
-                    <img src="/desortsh.jpg" alt="Desort">
-            
+                    <img src="/scene.jpg" alt="Scenes" class="filterDiv scene white pink">
+                    <img src="/desert.jpg" alt="Desert" class="filterDiv desert blue orange">
+                    <img src="/sea.jpg" alt="Sea" class="filterDiv sea green blue">
+
                   </div>
                    <div class="column">
-                      <img src="/mountainsp.jpg" alt="Mountains">
-                      <img src="/snowp.jpg" alt="snow">
-                      
+                      <img src="/mountain.jpg" alt="Mountains" class="filterDiv mountain blue green">
+                      <img src="/snow.jpg" alt="snow" class="filterDiv snow white">
+                      <img src="/sun.jpg" alt="Sun" class="filterDiv sun orange">
                    </div>
                   
                 </div>
+                
+                
+               
         </div>
+    
+    <script>
+        $('.hover').mouseover(function() {
+          $('.top-left').css("visibility","visible");
+        });
+        
+        $('.hover').mouseout(function() {
+          $('.top-left').css("visibility","hidden");
+        });
+   
+        
+        //make filter working
+        filterSelection("all")
+        function filterSelection(c) {
+          var x, i;
+          x = document.getElementsByClassName("filterDiv");
+          if (c == "all") c = "";
+          for (i = 0; i < x.length; i++) {
+            w3RemoveClass(x[i], "show");
+            if (x[i].className.indexOf(c) > -1) w3AddClass(x[i], "show");
+          }
+        }
+        
+        function w3AddClass(element, name) {
+          var i, arr1, arr2;
+          arr1 = element.className.split(" ");
+          arr2 = name.split(" ");
+          for (i = 0; i < arr2.length; i++) {
+            if (arr1.indexOf(arr2[i]) == -1) {element.className += " " + arr2[i];}
+          }
+        }
+        
+        function w3RemoveClass(element, name) {
+          var i, arr1, arr2;
+          arr1 = element.className.split(" ");
+          arr2 = name.split(" ");
+          for (i = 0; i < arr2.length; i++) {
+            while (arr1.indexOf(arr2[i]) > -1) {
+              arr1.splice(arr1.indexOf(arr2[i]), 1);     
+            }
+          }
+          element.className = arr1.join(" ");
+        }
+        
+        // Add active class to the current button (highlight it)
+        var btnContainer = document.getElementById("myBtnContainer");
+        var btns = btnContainer.getElementsByClassName("btn");
+        for (var i = 0; i < btns.length; i++) {
+          btns[i].addEventListener("click", function(){
+            var current = document.getElementsByClassName("active");
+            current[0].className = current[0].className.replace(" active", "");
+            this.className += " active";
+          });
+        }
+</script>
+
     
  <% include ../partials/footer %>

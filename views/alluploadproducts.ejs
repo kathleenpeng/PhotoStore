@@ -1,0 +1,52 @@
+<% include ../partials/header %>
+
+
+<div class="row">
+           
+       <br>
+       <h1 class="navtext">Welcome to the Photo Stock Page</h1>
+       <br>
+        <div class="grid-container">
+       <% result.forEach(function(product) { %> 
+       
+      
+           <div class="item">
+               <h1 class="itemtitle">Id: <%= product.Id %> </h1>
+                        <p class="itemp"><b>Title:</b><%= product.title %></p><br>
+                        <p class="itemp"><b>Price: €</b><%= product.price %></p><br>
+                        <p class="itemp"><b>Size:</b><%= product.size %></p><br>
+                        <p class="itemp"><b>Description: </b><%= product.activity %></p><br>
+                         <img src="/<%= product.image_url %>" class="pimage"  />
+                       
+                        <a href="/editproduct/<%= product.Id %>" class="button">Edit</a>
+            
+                
+              <p class="button" id="doit<%= product.Id %>">Delete</p>
+              <p id="yes<%= product.Id %>" style="display:none">
+               Are you sure?
+              <a href="/delete/<%= product.Id %>" class="button">Yes</a>
+              </p>
+             
+             <script>
+               $(document).ready(function(){
+                 $("#doit<%= product.Id %>").click(function(){
+                   $("#yes<%= product.Id %>").slideToggle(2000);
+                   
+                 })
+                 
+               })
+               
+             </script>
+               
+           </div>
+      
+       
+       <% }); %>
+        </div>
+        <div class="container">
+         <a href="/upload" class="button">Upload New Image</a>
+         </div>
+    </div>
+
+
+<% include ../partials/footer %>

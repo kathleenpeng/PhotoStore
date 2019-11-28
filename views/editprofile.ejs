@@ -1,0 +1,22 @@
+<% include ../partials/header %>
+
+   <div class="title"> 
+        <h2>Edit Profile </h2>
+   </div> 
+
+    <% result.forEach(function(user) { %>
+         <form accept-charset="UTF-8" action="/editprofile/<%= user.Id %>" method="post">
+                <div class="formgroup">
+                <label for="username"><b>Name:</b></label> 
+                <input name="username" type="text" value="<%= user.username %>"/>
+                <label for="email"><b>Email:</b></label> 
+                <input name="email" type="text" value="<%= user.email %>"/>
+                <label for="password"><b>Password:</b></label>
+                <input name="password" type="text" value="<%= user.password %>"/>
+              
+                    <button>Update</button>
+              </div>
+        </form>
+       <% }); %>
+
+<% include ../partials/footer %>

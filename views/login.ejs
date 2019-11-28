@@ -1,39 +1,32 @@
 <% include ../partials/header %>
 
-
- <form action="/login" method="post">
-  <div class="title">
+ <div class="title">
     <h2>Sign Into Your Account</h2>
-   <p>Please enter your details to login</p>
-   <!-- show any messages that come back with authentication --> 
-   <% if (message.length > 0) { %>
-    <div class="alert alert-danger"><%= message %></div> 
-   <% } %>
-  </div>
-
-  <div class="container">
-     
-     <label for="email"><b>User Email</b></label>
-    <input type="text" placeholder="User Email" name="email" required>
-    <label for="password"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="password" required>
+    <p>Please enter your details to login</p>
+    <!-- show any messages that come back with authentication --> 
+    <% if (message.length > 0) { %>
+     <div class="alertdanger"><%= message %></div> 
+    <% } %>
    
-
-    <button type="submit">Login</button>
-    </div>
-     <div class="container">
-    <label>
-      <input type="checkbox" checked="checked" name="remember"> Remember me
-    </label>
-     <span class="psw"><a href="#">Forgot?</a></span>
-    </div>
-     <div class="container">
-     <h3 class="mid">Don't have an account</h3>
-    <button type="button"><a href="/register">Register</a></button>
-  </div>
-
-  
-
+ </div>
+ <form action="/login" method="post">
+   <div class="formgroup">
+         <label for="email"><b>User Email</b></label>
+         <input type="text" placeholder="User Email" name="email" required>
+         <label for="password"><b>Password</b></label>
+         <input type="password" placeholder="Enter Password" name="password" required>
+         <button type="submit">Login</button>
+     </div>
+     <div class="formgroup">
+        <label>
+          <input type="checkbox" checked="checked" name="remember"> Remember me
+        </label>
+         <span class="psw"><a href="#">Forgot?</a></span>
+     </div>
+     <div class="formgroup">
+        <h3 class="mid">Don't have an account</h3>
+       <button type="button"><a href="/register">Register</a></button>
+     </div>
 </form>
         
     

@@ -5,7 +5,9 @@
     <title>Photo Store</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!--<link href="https://fonts.googleapis.com/css?family=Beth+Ellen&display=swap" rel="stylesheet">-->
-    <link rel="stylesheet" href="app.css" type="text/css">
+   
+    <script src="https://kit.fontawesome.com/dbd56f2afc.js"></script>
+    <link rel="stylesheet" href="/app.css" type="text/css">
   </head>
   <body>
    <header>
@@ -17,13 +19,65 @@
             <ul>
                 <li><a href="/">Home</a></li>
                 <li><a href="/products" >Images</a></li>
-                <li><a href="/addproduct"  >Upload images</a></li>
-                <li><a href="event">Events</a></li>
+                <li><a href="/product">showsingleImage</a></li>
+                <!--<li><a href="/event">Events</a></li>-->
+                <li><a href="/alluploadproducts">AlluProduct</a></li>
+                <li><a href="/editprofile">EProfile</a></li>
                 <li><a href="/contactform">Contact</a></li>
             </ul>
           </nav>
           <div class="register">
+              <i id="shoppingbasket" class="fas fa-shopping-cart"></i>
+              <a><i id="myButton" onclick="document.getElementById('id01').style.display='block'" class="fas fa-user-plus"></i></a>
               <a href="/login">Login/Register</a>
+              
+              
+              <div id="id01" class="modal">
+                  
+                  <div class="modal-content animate">
+                    <div class="imgcontainer">
+                      <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+                    </div>
+    
+                   <div class="contentpart"> 
+  
+                     <h2>Dashboard</h2>
+                     
+                     <div class ="dropdown-content"></div>
+                        <h4><a href="/profile">forgot</a></h4>
+                        <h4><a href="/upload" >Upload Image</a></h4>
+                        <h4><a href="/addproduct">Download Image</a></h4>
+                        <h4><a href="/payment">Checkout</a></h4>
+                        <h4><a href="/logout">Logout</a></h4>
+                        </div>
+                   
+                 </div>
+                  </div>
+                </div>
+
           </div>
     </div>
   </header>
+  
+  <script>
+    // Get the modal
+    var modal = document.getElementById('id01');
+    
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+    
+    
+    
+    
+    // check cart item
+    var items = 5;
+    $(document).ready(function(){
+      if (items != 0) {
+        $("#shoppingbasket").append("<div class=\"basketitems\">" + items + "</div>")
+      }
+    });
+</script>

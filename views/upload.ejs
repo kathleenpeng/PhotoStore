@@ -1,0 +1,23 @@
+<% include ../partials/header %>
+   
+       <div class="title">
+              <h2>Upload Image</h2>
+       </div>
+  
+        <form action="/alluploadproducts"  id="uploadForm" ref="uploadForm" method="post" enctype="multipart/form-data">
+             
+             <div class="formgroup">
+                    <label for="title"><b>Title</b></label> 
+                    <input name="title" type="text" placeholder="Enter image title" />
+                    <label for="price"><b>Price</b></label> 
+                    <input name="price" type="text" placeholder="Enter price" />
+                    <label for="size"><b>Size</b></label>
+                    <input name="size" type="text" placeholder="Enter size" />
+                    <label for="activity"><b>Description</b></label>
+                    <input name="activity" type="text" placeholder="Enter activity" />
+                    <input class="btn" type="file" name="sampleFile" />
+                    <button>Upload</button>
+              </div>
+        </form>
+
+<% include ../partials/footer %>
