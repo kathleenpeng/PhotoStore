@@ -2,6 +2,20 @@
 
     <div class="container">
         
+        <% result.forEach(function(product) { %> 
+        
+           <div class="item">
+               <h1 class="itemtitle">Id: <%= product.Id %> </h1>
+                        <p class="itemp"><b>Title:</b><%= product.title %></p><br>
+                        <p class="itemp"><b>Price: €</b><%= product.price %></p><br>
+                        <p class="itemp"><b>Size:</b><%= product.size %></p><br>
+                        <p class="itemp"><b>Description: </b><%= product.activity %></p><br>
+                         <img src="/<%= product.image_url %>" class="pimage"  />
+                         </div>
+        
+        
+          <% }); %>
+        
         <h2>Photo Gallery</h2>
 
         <div id="myBtnContainer">

@@ -65,6 +65,10 @@ connection.connect((err) =>{
     }
 });
 
+connection.on('error', function(err) {
+  console.log("[mysql error]",err);
+});
+
 //The following to show data in terminal line
 // connection.connect();
 
@@ -89,59 +93,21 @@ connection.on('enqueue', function () {
 });
 
 
+// //-------------------------------------------------------------
+// connection.connect();
 
-
-
-
-//-----------------------------------------------------
-
-// var db = {
-//   host: 'den1.mysql6.gear.host',
-//     user: 'photodb',
-//     password: 'Ps13eXh-~aB9',
-//     database: 'photodb'
-// };
-
-// var connection;
-
-// function handleDisconnect() {
-//   connection = mysql.createConnection(db); // Recreate the connection, since
-//                                                   // the old one cannot be reused.
-
-//   connection.connect(function(err) {              // The server is either down
-//     if(err) {                                     // or restarting (takes a while sometimes).
-//       console.log('error when connecting to db:', err);
-//       setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
-//     }                                     // to avoid a hot loop, and to allow our node script to
-//   });                                     // process asynchronous requests in the meantime.
-//                                           // If you're also serving http, display a 503 error.
-//   connection.on('error', function(err) {
-//     console.log('db error', err);
-//     if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
-//       handleDisconnect();                         // lost due to either server restart, or a
-//     } else {                                      // connnection idle timeout (the wait_timeout
-//       throw err;                                  // server variable configures this)
-//     }
-//   });
-// }
-
-// handleDisconnect();
-
-//-------------------------------------------------------------
-// db.connect();
-
-// db.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
+// connection.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
 //   if (error) throw error;
 //   console.log('The solution is: ', results[0].solution);
 // });
 
-// db.end();
+// connection.end();
 
 
 
 //the following code to connection pool and handling disconnect
 // setInterval(function () {
-//     db.query('SELECT 1');
+//     connection.query('SELECT 1');
 // }, 3000);
 
 //Drop Table
@@ -157,59 +123,72 @@ connection.on('enqueue', function () {
 
 
 // CREATE TABLE users Id username, email, password
-app.get('/createusers', function(req, res){
-let sql = 'CREATE TABLE users (Id int NOT NULL AUTO_INCREMENT PRIMARY KEY, username varchar(255), email varchar(255), password varchar(255));'
-let query = connection.query(sql, (err,res) => { if(err) throw err;
-});
-res.send("SQL Worked"); 
-    console.log("sqllllllll");
-});
+// app.get('/createusers', function(req, res){
+// let sql = 'CREATE TABLE users (Id int NOT NULL AUTO_INCREMENT PRIMARY KEY, username varchar(255), email varchar(255), password varchar(255));'
+// let query = connection.query(sql, (err,res) => { if(err) throw err;
+// });
+// res.send("SQL Worked"); 
+//     console.log("sqllllllll");
+// });
 
 // CREATE TABLE paint Id author, title, image_url, price, size
-app.get('/createimages', function(req, res){
-let sql = 'CREATE TABLE paint (Id int NOT NULL AUTO_INCREMENT PRIMARY KEY, author varchar(255),title varchar(255),price int, size varchar(255),activity varchar(255), image_url varchar(255))';
-let query = connection.query(sql, (err,res) => { 
-    if(err) throw err;
-});
- res.send("SQL Worked"); 
-    console.log("to see if paint table exists");
-});
+// app.get('/createimages', function(req, res){
+// let sql = 'CREATE TABLE paint (Id int NOT NULL AUTO_INCREMENT PRIMARY KEY, author varchar(255),title varchar(255),price int, size varchar(255),activity varchar(255), image_url varchar(255))';
+// let query = connection.query(sql, (err,res) => { 
+//     if(err) throw err;
+// });
+//  res.send("SQL Worked"); 
+//     console.log("to see if paint table exists");
+// });
 
-app.get('/make', function(req, res){
-let sql = 'INSERT INTO paint (author, title, price, size, activity, image_url) values ?';
- let   values =[
+// app.get('/make', function(req, res){
+// let sql = 'INSERT INTO paint (author, title, price, size, activity, image_url) values ?';
+//  let   values =[
     
-    ["Ann Talor", "Sun Orange", 15, "1500x1200px","The image was took on Dublin","sun.jpg"],
-    ["Peter Dawn", "Flowers", 25, "4896×3060px","The image was took on gardan","flower.jpg"],
-    ["Amy Talor", "Scenes", 32, "3643×5468px","The image was took on site","scene.jpg"],
-    ["Hannah Ryan", "Mountain", 15, "1500x1200px","The image was took on Wicklow","mountain.jpg"],
-    ["Michael Doe", "Traval", 15, "3630×5445px","The image was took on Galway","traval.jpg"],
-    ["Sandy Lee", "Tree", 17, "1500x1200px","The image was took on Limrick","tree.jpg"],
-    ["Betty Zen", "Desert", 39, "6600×5100px","The image was took on Desert","desert.jpg"],
-    ["Richard Ryan", "Snow", 15, "4000×6000px","The image was took on Canada","snow.jpg"],
-    ["Susan Howard", "House", 8, "1280×853px","The image was took on Sligo","house.jpg"],
-    ["Vicky Lee", "Sun Rise", 15, "1500x1200px","The image was took on Meath","sunrise.jpg"],
-    ["Ben Fox", "Sea", 158, "1700x1500px","The image was took on Malahide","sea.jpg"],
-    ["William Talor", "Plant", 12, "1500x1200px","The image was took on backyard","plant.jpg"],
-    ["Sara Yo", "Forst", 28, "5184×3456px","The image was took on Belfast","forst.jpg"]
+//     ["Ann Talor", "Sun Orange", 15, "1500x1200px","The image was took on Dublin","sun.jpg"],
+//     ["Peter Dawn", "Flowers", 25, "4896×3060px","The image was took on gardan","flower.jpg"],
+//     ["Amy Talor", "Scenes", 32, "3643×5468px","The image was took on site","scene.jpg"],
+//     ["Hannah Ryan", "Mountain", 15, "1500x1200px","The image was took on Wicklow","mountain.jpg"],
+//     ["Michael Doe", "Traval", 15, "3630×5445px","The image was took on Galway","traval.jpg"],
+//     ["Sandy Lee", "Tree", 17, "1500x1200px","The image was took on Limrick","tree.jpg"],
+//     ["Betty Zen", "Desert", 39, "6600×5100px","The image was took on Desert","desert.jpg"],
+//     ["Richard Ryan", "Snow", 15, "4000×6000px","The image was took on Canada","snow.jpg"],
+//     ["Susan Howard", "House", 8, "1280×853px","The image was took on Sligo","house.jpg"],
+//     ["Vicky Lee", "Sun Rise", 15, "1500x1200px","The image was took on Meath","sunrise.jpg"],
+//     ["Ben Fox", "Sea", 158, "1700x1500px","The image was took on Malahide","sea.jpg"],
+//     ["William Talor", "Plant", 12, "1500x1200px","The image was took on backyard","plant.jpg"],
+//     ["Sara Yo", "Forst", 28, "5184×3456px","The image was took on Belfast","forst.jpg"]
     
-    ];
+//     ];
     
-let query = connection.query(sql,[values], (err,res) => { if(err) throw err;
-});
-res.send("SQL Worked"); 
-    console.log("Number of values inserted: " + res.affectedRows);
-});
+// let query = connection.query(sql,[values], (err,res) => { if(err) throw err;
+// });
+// res.send("SQL Worked"); 
+//     console.log("Number of values inserted: " + res.affectedRows);
+// });
 
 
 
-app.get('/product', function(req, res) {
-res.render("product"); // we set the response to send back the string hello world
-console.log("Single product page"); // used to output activity in the console
-});
+// app.get('/product', function(req, res) {
+// res.render("product"); // we set the response to send back the string hello world
+// console.log("Single product page"); // used to output activity in the console
+// });
 
 //URL to get the product ID
-app.get('/product/:id', function(req,res){
+// app.get('/product/:id', function(req,res){
+//     // Create a table that will show product Id, title, price, image and sporting activity
+//   let sql = 'SELECT * FROM paint WHERE Id = "'+req.params.id+'" ; ';
+//   let query = connection.query(sql, (err,result) => { 
+      
+//       if(err) throw err;
+  
+ 
+//   console.log(result);
+//   res.render('product', {result})
+//   });
+// })
+//The route to render the products page
+app.get('/products', function(req,res){
     // Create a table that will show product Id, title, price, image and sporting activity
   let sql = 'SELECT * FROM paint WHERE Id = "'+req.params.id+'" ; ';
   let query = connection.query(sql, (err,result) => { 
@@ -218,15 +197,80 @@ app.get('/product/:id', function(req,res){
   
  
   console.log(result);
-   res.render('product', {result})
+   res.render('products', {result})
   });
 })
+
+
+//The route to render the upload page
+app.get('/upload', function(req, res){
+
+
+// var filename;
+// // post request url
+// app.post('/upload', function(req, res){
+    
+//  /// Upload image also 
+//     if (!req.files)
+//     return res.status(400).send('No files were uploaded.');
+
+ 
+//  let sampleFile = req.files.sampleFile;
+//   filename = sampleFile.name;
+//  // we use the middleware (file upload ) to move the data from the form to the desired location
+//     sampleFile.mv('./images/' + filename, function(err){
+//         if(err)
+//         return res.status(500).send(err);
+       
+        
+//         console.log("Image is " + filename);
+       
+        
+//         // res.redirect('/alluploadproducts');
+//     });
+    
+    // let sql = 'INSERT INTO paint (title, price, size,activity, image_url) VALUES ("'+req.body.title+'", '+req.body.price+', "'+req.body.size+'", "'+req.body.activity+'","'+req.body.filename+'")'
+       let sql = 'INSERT INTO paint (title, price, size,activity, image_url) VALUES ("'+req.body.title+'", '+req.body.price+', "'+req.body.size+'", "'+req.body.activity+'","'+req.body.image_url+'")'
+
+     let query = connection.query(sql, (err,res) => {
+        if(err) throw err;
+    });
+    
+    console.log("line239");
+    res.redirect("/alluploadproducts");
+
+});
+
+
+// app.get('/alluploadproducts', function(req, res){
+//   res.render('alluploadproducts')  
+// });
+
+// // URL to get the product page
+app.get('/alluploadproducts', function(req,res){
+    // Create a table that will show product Id, name, price, image and sporting activity
+  let sql = 'SELECT * FROM paint'
+  let query = connection.query(sql, (err,result) => { 
+      
+      if(err) throw err;
+  
+  res.render('alluploadproducts', {result});
+  console.log(result)
+});
+
+console.log("You created you first product");
+
+    console.log("line 263"); 
+});
+
+
+
 
 // URL to get the edit product page
 
 app.get('/editproduct/:id', function(req,res){
     
-    
+    console.log("line 273");
     let sql = 'SELECT * FROM paint WHERE Id =  "'+req.params.id+'" ';
     
     let query = connection.query(sql, (err,result) => {
@@ -246,7 +290,7 @@ app.get('/editproduct/:id', function(req,res){
    
   app.post('/editproduct/:id', function(req,res){
     // Create a table that will show product Id, name, price, image and description
-    let sql = 'UPDATE paint SET title = "   '+req.body.title+'   ", price = '+req.body.price+', size = "'+req.body.size+'", activity = "'+req.body.activity+'", image_url = "'+req.body.image_url+'" WHERE Id =  "'+req.params.id+'" ';
+    let sql = 'UPDATE paint SET title = "   '+req.body.title+'   ", price = '+req.body.price+', size = "'+req.body.size+'", activity = "'+req.body.activity+'", image_url = "'+req.params.filename+'" WHERE Id =  "'+req.params.id+'" ';
     
     let query = connection.query(sql, (err,res) => {
         
@@ -323,17 +367,7 @@ app.get('/editprofile/:id', function(req,res){
     //res.send("You created your first Product")
     
 }) 
-// URL to get the add product page
-// app.get('/addproduct', function(req,res){
-//     // Create a table that will show product Id, name, price, image and sporting activity
-//   let sql = 'SELECT * FROM users'  
-//   let query = db.query(sql, (err, res1) => {    
-//       if(err) throw err;    
-//       console.log(res1);
-//   })
-  
-    
-// })
+
 
 // --------------------------------------------------------- Authenthication ------------------------------------------------------------ //
 
@@ -535,76 +569,6 @@ passport.use(
 // }
 
 
-//-----------------------------------------------Upload images and display on allupload images page-----------------------------------//
-//The route to render the upload page
-app.get('/upload', function(req, res){
-  res.render('upload')  
-});
-
-
-// post request url
-app.post('/upload', function(req, res){
-    
- //    need to get the image from the form
- 
- let sampleFile = req.files.sampleFile
-  filename = sampleFile.name;
- // we use the middleware (file upload ) to move the data from the form to the desired location
-    sampleFile.mv('./images/' + filename, function(err){
-        if(err)
-        return res.status(500).send(err);
-        console.log("Image is " + req.files.sampleFile)
-        res.redirect('/alluploadproducts');
-    });
-});
-
-
-// app.get('/alluploadproducts', function(req, res){
-//   res.render('alluploadproducts')  
-// });
-
-// // URL to get the product page
-app.get('/alluploadproducts', function(req,res){
-    // Create a table that will show product Id, name, price, image and sporting activity
-  let sql = 'SELECT * FROM paint'
-  let query = connection.query(sql, (err,result) => { 
-      
-      if(err) throw err;
-  
-  res.render('alluploadproducts', {result});
-  console.log(result)
-});
-
-console.log("You created you first product");
-
-    
-});
-
-app.post('/alluploadproducts', function(req, res){
-    
-      /// Upload image also 
-    if (!req.files)
-    return res.status(400).send('No files were uploaded.');
- 
-  // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-  let sampleFile = req.files.sampleFile;
-  var filename = sampleFile.name;
-  // Use the mv() method to place the file somewhere on your server
-  sampleFile.mv('./images/' + filename, function(err) {
-    if (err)
-      return res.status(500).send(err);
- console.log("Here is the image " + req.files.sampleFile)
-    //res.redirect('/');
-  });
-    
-    
-let sql = 'INSERT INTO paint (title, price, size,activity, image_url) VALUES ("'+req.body.title+'", '+req.body.price+', '+req.body.size+', "'+req.body.activity+'","'+filename+'")'
-     let query = connection.query(sql, (err,res) => {
-        if(err) throw err;
-    });
-    res.redirect("/alluploadproducts");
- 
-});
 
 
 // // ******************************************From here is JSON data ********************************
@@ -663,7 +627,7 @@ app.post("/contactform",function(req,res){
         }
     })
     
-    res.redirect('/contactform');
+    res.redirect('/');
     
     
 });
@@ -760,27 +724,6 @@ console.log("Hello World"); // used to output activity in the console
 // });
 
 
-app.get('/products', function(req,res){
-    // Create a table that will show product Id, title, price, image and sporting activity
-  let sql = 'SELECT * FROM paint WHERE Id = "'+req.params.id+'" ; ';
-  let query = connection.query(sql, (err,result) => { 
-      
-      if(err) throw err;
-  
- 
-  console.log(result);
-   res.render('products', {result})
-  });
-})
-
-// URL to get the addproduct page
-// app.get('/addproduct', function(req,res){
-//     // Create a table that will show product Id, name, price, image and sporting activity
-  
-//         res.render('addproduct');
-//         console.log("Add on products page has been displayed")
-    
-// });
 
 // URL to get the product page
 app.get('/event', function(req,res){

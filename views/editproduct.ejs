@@ -1,6 +1,6 @@
 <% include ../partials/header %>
      <div class="title">
-              <h2>Add images page</h2>
+              <h2>Edit images page</h2>
      </div>
      
     <% result.forEach(function(product) { %>
@@ -15,7 +15,7 @@
                     <input name="size" type="text" value="<%= product.size %>"/>
                     <label for="activity"><b>Description</b></label>
                     <input name="activity" type="text" value="<%= product.activity %>"/>
-                    <input class="button" type="file" name="sampleFile" value="<%= product.image_url %>"/>
+                    <input class="button" type="file" name="sampleFile"/>
                    
 
                     <button>Update</button>
