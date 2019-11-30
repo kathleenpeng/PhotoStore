@@ -1,0 +1,35 @@
+ <% include ../partials/header %>
+
+                <div class="row">
+                    <div class="item">   
+                         <h1 class="itemtitle">Welcome to the cart page</h1>
+                    </div>
+                </div>
+            
+            
+                <div class="item"> 
+                <h1 class="itemtitle"><%= greeting %></h1>
+                </div>
+            
+                <div class="grid-container">
+                       <% res1.forEach(function(product) { %>
+                            
+                               <div class="item">     
+                                    <div class="item">
+                                       <h1 class="itemtitle">Id: <%= product.Id %></h1>
+                                       <p class="itemp"> Title <%= product.title %></p>
+                                       <p class="itemp"> Price <%= product.price %></p>
+                                    
+                                        
+                                    </div>
+                                </div>
+                                  
+                             <% }); %>
+                </div>
+
+      <a href="#">Remove</a>
+ <hr>     
+      <div><strong>Total:</strong></div>
+      
+    <a href="/payment" class="button">Checkout</a>   
+<% include ../partials/footer %>

@@ -46,30 +46,97 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 
 // *****************************************Start of SQL **********************************
 
-const db = mysql.createConnection({
+const connection = mysql.createConnection({
     host: 'den1.mysql6.gear.host',
     user: 'photodb',
     password: 'Ps13eXh-~aB9',
     database: 'photodb'
 });
-// Next we need to create a connectin to the database
 
-db.connect((err) =>{
+//Next we need to create a connectin to the database
+
+connection.connect((err) =>{
      if(err){
-        // console.log("go back and check the connection details. Something is wrong.")
-        // console.log('caught this error: ' + err.toString());
-        throw(err)
+        console.log("go back and check the connection details. Something is wrong.");
+        // throw(err)
     } 
      else{
-        
-        console.log('Looking good the database connected')
+        console.log('Looking good the database connected');
     }
-    
-})
+});
 
-// db.connect(db, {useNewUrlParser: true})
-// .then(()=> console.log('Looking good the database connected'))
-// .catch(err => console.log(err));
+//The following to show data in terminal line
+// connection.connect();
+
+// connection.query('SELECT * FROM paint', function(err, rows, fields) 
+// {
+//   if (err) throw err;
+
+//   console.log(rows[20]);
+// });
+
+// connection.end();
+
+// connection.on('connection', function (connection) {
+//   connection.query('SET SESSION auto_increment_increment=1')
+// });
+
+
+
+//The following line get rid of Error: Cannot enqueue Handshake after invoking quit
+connection.on('enqueue', function () {
+  console.log('Waiting for available connection slot');
+});
+
+
+
+
+
+
+//-----------------------------------------------------
+
+// var db = {
+//   host: 'den1.mysql6.gear.host',
+//     user: 'photodb',
+//     password: 'Ps13eXh-~aB9',
+//     database: 'photodb'
+// };
+
+// var connection;
+
+// function handleDisconnect() {
+//   connection = mysql.createConnection(db); // Recreate the connection, since
+//                                                   // the old one cannot be reused.
+
+//   connection.connect(function(err) {              // The server is either down
+//     if(err) {                                     // or restarting (takes a while sometimes).
+//       console.log('error when connecting to db:', err);
+//       setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
+//     }                                     // to avoid a hot loop, and to allow our node script to
+//   });                                     // process asynchronous requests in the meantime.
+//                                           // If you're also serving http, display a 503 error.
+//   connection.on('error', function(err) {
+//     console.log('db error', err);
+//     if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
+//       handleDisconnect();                         // lost due to either server restart, or a
+//     } else {                                      // connnection idle timeout (the wait_timeout
+//       throw err;                                  // server variable configures this)
+//     }
+//   });
+// }
+
+// handleDisconnect();
+
+//-------------------------------------------------------------
+// db.connect();
+
+// db.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
+//   if (error) throw error;
+//   console.log('The solution is: ', results[0].solution);
+// });
+
+// db.end();
+
 
 
 //the following code to connection pool and handling disconnect
@@ -92,7 +159,7 @@ db.connect((err) =>{
 // CREATE TABLE users Id username, email, password
 app.get('/createusers', function(req, res){
 let sql = 'CREATE TABLE users (Id int NOT NULL AUTO_INCREMENT PRIMARY KEY, username varchar(255), email varchar(255), password varchar(255));'
-let query = db.query(sql, (err,res) => { if(err) throw err;
+let query = connection.query(sql, (err,res) => { if(err) throw err;
 });
 res.send("SQL Worked"); 
     console.log("sqllllllll");
@@ -101,7 +168,7 @@ res.send("SQL Worked");
 // CREATE TABLE paint Id author, title, image_url, price, size
 app.get('/createimages', function(req, res){
 let sql = 'CREATE TABLE paint (Id int NOT NULL AUTO_INCREMENT PRIMARY KEY, author varchar(255),title varchar(255),price int, size varchar(255),activity varchar(255), image_url varchar(255))';
-let query = db.query(sql, (err,res) => { 
+let query = connection.query(sql, (err,res) => { 
     if(err) throw err;
 });
  res.send("SQL Worked"); 
@@ -128,7 +195,7 @@ let sql = 'INSERT INTO paint (author, title, price, size, activity, image_url) v
     
     ];
     
-let query = db.query(sql,[values], (err,res) => { if(err) throw err;
+let query = connection.query(sql,[values], (err,res) => { if(err) throw err;
 });
 res.send("SQL Worked"); 
     console.log("Number of values inserted: " + res.affectedRows);
@@ -145,7 +212,7 @@ console.log("Single product page"); // used to output activity in the console
 app.get('/product/:id', function(req,res){
     // Create a table that will show product Id, title, price, image and sporting activity
   let sql = 'SELECT * FROM paint WHERE Id = "'+req.params.id+'" ; ';
-  let query = db.query(sql, (err,result) => { 
+  let query = connection.query(sql, (err,result) => { 
       
       if(err) throw err;
   
@@ -162,7 +229,7 @@ app.get('/editproduct/:id', function(req,res){
     
     let sql = 'SELECT * FROM paint WHERE Id =  "'+req.params.id+'" ';
     
-    let query = db.query(sql, (err,result) => {
+    let query = connection.query(sql, (err,result) => {
         
         if(err) throw err;
         
@@ -179,9 +246,9 @@ app.get('/editproduct/:id', function(req,res){
    
   app.post('/editproduct/:id', function(req,res){
     // Create a table that will show product Id, name, price, image and description
-    let sql = 'UPDATE paint SET title = "   '+req.body.title+'   ", price = '+req.body.price+', size = "'+req.body.size+'", activity = "'+req.body.activity+'", image = "'+req.body.image_url+'" WHERE Id =  "'+req.params.id+'" ';
+    let sql = 'UPDATE paint SET title = "   '+req.body.title+'   ", price = '+req.body.price+', size = "'+req.body.size+'", activity = "'+req.body.activity+'", image_url = "'+req.body.image_url+'" WHERE Id =  "'+req.params.id+'" ';
     
-    let query = db.query(sql, (err,res) => {
+    let query = connection.query(sql, (err,res) => {
         
         if(err) throw err;
         
@@ -194,6 +261,24 @@ app.get('/editproduct/:id', function(req,res){
     
 }) 
 
+// Delete product
+
+app.get('/delete/:id',  function(req, res){
+    let sql = 'DELETE FROM paint WHERE Id = "'+req.params.id+'" ; ';
+  let query = connection.query(sql, (err, res1) => {
+    if(err) throw err;
+    console.log(res);
+    
+    res.redirect('/alluploadproducts'); // This will render the index.jade page for us
+  });
+  
+    //res.send("Hello Lovely World"); // send the response as a string Hello World
+    console.log("That worked");
+    
+});
+
+
+//URL to get the editprofile
 app.get('/editprofile', function(req, res) {
 	res.render('editprofile', {
 		user : req.user // get the user out of session and pass to template
@@ -207,7 +292,7 @@ app.get('/editprofile/:id', function(req,res){
     
     let sql = 'SELECT * FROM users WHERE Id =  "'+req.params.id+'" ';
     
-    let query = db.query(sql, (err,result) => {
+    let query = connection.query(sql, (err,result) => {
         
         if(err) throw err;
         
@@ -226,7 +311,7 @@ app.get('/editprofile/:id', function(req,res){
     // Create a table that will show product Id, name, price, image and description
     let sql = 'UPDATE users SET username = "   '+req.body.username+'   ", email = "'+req.body.email+'", password = "'+req.body.password+'" WHERE Id =  "'+req.params.id+'" ';
     
-    let query = db.query(sql, (err,res) => {
+    let query = connection.query(sql, (err,res) => {
         
         if(err) throw err;
         
@@ -294,7 +379,7 @@ app.post('/login', passport.authenticate('local-login', {
             passReqToCallback : true // allows us to pass back the entire request to the callback
         },
         function(req, username, password, done) { // callback with email and password from our form
-            db.query("SELECT * FROM users WHERE email = ?",[username], function(err, rows){
+            connection.query("SELECT * FROM users WHERE email = ?",[username], function(err, rows){
                 if (err)
                     return done(err);
                 if (!rows.length) {
@@ -361,12 +446,7 @@ function isLoggedIn(req, res, next) {
 	res.redirect('/');
 }
 
-// function isNotLoggedIn(req, res, next) {
-//   if (req.isAuthenticated()) {
-//     return res.redirect('/')
-//   }
-//   next()
-// }
+
 
 //module.exports = function(passport) {
 
@@ -384,7 +464,7 @@ passport.serializeUser(function(user, done) {
 // used to deserialize the 
 passport.deserializeUser(function(Id, done) {    // LOCAL SIGNUP ============================================================
 
-   db.query("SELECT * FROM users WHERE Id = ? ",[Id], function(err, rows){
+   connection.query("SELECT * FROM users WHERE Id = ? ",[Id], function(err, rows){
         done(err, rows[0]);
     });
 });
@@ -405,7 +485,7 @@ passport.use(
     function(req, username, password, done) {
         // find a user whose email is the same as the forms email
         // we are checking to see if the user trying to login already exists
-        db.query("SELECT * FROM users WHERE username = ?",[username], function(err, rows) {
+        connection.query("SELECT * FROM users WHERE username = ?",[username], function(err, rows) {
             if (err)
                 return done(err);
             if (rows.length) {
@@ -421,7 +501,7 @@ passport.use(
 
                 var insertQuery = "INSERT INTO users ( username, email, password ) values (?,?,?)";
 
-                db.query(insertQuery,[newUserMysql.username, newUserMysql.email, newUserMysql.password],function(err, rows) {
+                connection.query(insertQuery,[newUserMysql.username, newUserMysql.email, newUserMysql.password],function(err, rows) {
                     newUserMysql.Id = rows.insertId;
 
                     return done(null, newUserMysql);
@@ -487,7 +567,7 @@ app.post('/upload', function(req, res){
 app.get('/alluploadproducts', function(req,res){
     // Create a table that will show product Id, name, price, image and sporting activity
   let sql = 'SELECT * FROM paint'
-  let query = db.query(sql, (err,result) => { 
+  let query = connection.query(sql, (err,result) => { 
       
       if(err) throw err;
   
@@ -508,7 +588,7 @@ app.post('/alluploadproducts', function(req, res){
  
   // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
   let sampleFile = req.files.sampleFile;
-  filename = sampleFile.name;
+  var filename = sampleFile.name;
   // Use the mv() method to place the file somewhere on your server
   sampleFile.mv('./images/' + filename, function(err) {
     if (err)
@@ -518,8 +598,8 @@ app.post('/alluploadproducts', function(req, res){
   });
     
     
-let sql = 'INSERT INTO paint (title, price, size,activity, image) VALUES ("'+req.body.title+'", '+req.body.price+', '+req.body.size+', "'+req.body.activity+'","'+filename+'")'
-     let query = db.query(sql, (err,res) => {
+let sql = 'INSERT INTO paint (title, price, size,activity, image_url) VALUES ("'+req.body.title+'", '+req.body.price+', '+req.body.size+', "'+req.body.activity+'","'+filename+'")'
+     let query = connection.query(sql, (err,res) => {
         if(err) throw err;
     });
     res.redirect("/alluploadproducts");
@@ -683,7 +763,7 @@ console.log("Hello World"); // used to output activity in the console
 app.get('/products', function(req,res){
     // Create a table that will show product Id, title, price, image and sporting activity
   let sql = 'SELECT * FROM paint WHERE Id = "'+req.params.id+'" ; ';
-  let query = db.query(sql, (err,result) => { 
+  let query = connection.query(sql, (err,result) => { 
       
       if(err) throw err;
   
@@ -744,6 +824,21 @@ app.get('/forgot', function(req,res){
 //     res.render("contacts");//Get the contacts page when somebody visits the /contacts url
 //     console.log("I found the contacts page");
 // });
+
+
+//------------------------------------------------To Make Search Bar working --------------------------------------------//
+app.get('/search',function(req,res){
+connection.query('SELECT title from users where paint like "%'+req.query.key+'%"',
+function(err, rows, fields) {
+if (err) throw err;
+var data=[];
+for(i=0;i<rows.length;i++)
+{
+data.push(rows[i].first_name);
+}
+res.end(JSON.stringify(data));
+});
+});
 
 // this code provides the server port for our application to run on
 app.listen(process.env.PORT || 3000, process.env.IP || "0.0.0.0", function() {

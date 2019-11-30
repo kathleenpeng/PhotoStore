@@ -266,26 +266,22 @@ button.btn:hover {
 .column {
     flex: 25%;
     max-width: 25%;
-    padding: 0 4px;
+    padding: 0 2.5px;
      margin-top: 8px;
 }
 .column img {
-    margin: 1px;
+    margin: 3.5px;
     vertical-align: middle;
     width: 100%;
+    
 }
 .column img:hover{
     cursor: pointer;
 }
 
 /* text on image when hover*/
-.hvrbox,
-.hvrbox * {
-	box-sizing: border-box;
-}
 .hvrbox {
 	position: relative;
-	display: inline-block;
 	overflow: hidden;
 	max-width: 100%;
 	height: auto;
@@ -293,7 +289,7 @@ button.btn:hover {
 .hvrbox img {
 	max-width: 100%;
 }
-.hvrbox .hvrbox-layer_bottom {
+.hvrbox {
 	display: block;
 }
 .hvrbox .hvrbox-layer_top {
@@ -329,25 +325,9 @@ button.btn:hover {
 	-ms-transform: translate(-50%, -50%);
 	transform: translate(-50%, -50%);
 }
-.hvrbox .hvrbox-text_mobile {
-	font-size: 15px;
-	
-	
-	border-top: 1px solid rgba(179, 179, 179, .7);
-	margin-top: 5px;
-	padding-top: 2px;
-	display: none;
+.add-icon:hover {
+  cursor: pointer;
 }
-.hvrbox.active .hvrbox-text_mobile {
-	display: block;
-}
-
-
-
-
-
-
-
 
 /* --------------------Single Image Page---------------- */
 .contentrow{
@@ -652,6 +632,11 @@ a .button{
 .button:hover{
     opacity: .7;
 }
+/*-------------------------------edit product------------------------------*/
+.formgroup .button {
+  width: 60%;
+}
+
 
 /*-------------------------------footer area------------------------------*/
 .footer{
