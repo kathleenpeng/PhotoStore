@@ -1,23 +1,26 @@
 <% include ../partials/header %>
 
- <div class="title">
+<div class="title">
     <h2>Edit Contact Page</h2>
   </div>
- <% res.forEach(function(indOne) {%>  
- <form action="/editcontact/<%= indOne.id %>" method="post">
-   <div class="formgroup">
-     <label for="fullname"><b>Full Name</b></label>
-     <input type="text" name="fullname" value="<%= indOne.fullname %>"/>
-     <label for="email"><b>User Email</b></label>
-     <input type="text" name="email" value="<%= indOne.email %>"/>
-     <label for="phonenumber"><b>Phone Number</b></label>
-     <input type="text" name="phonenumber" value="<%= indOne.phonenumber %>"/>
-     <label for="message"><b>Message</b></label>
-     <textarea id="message" name="message" value="<%= indOne.message %>" style="width: 100%; height:100%;"></textarea>
-     <button type="submit">Update</button>
-    </div>
+       <% res.forEach(function(indOne) {%>  
+         <form accept-charset="UTF-8" style="display: inline-block; width: 90%;" action="/editcontact/<%= indOne.id %>" method="post">    
+                <div class="formgroup">
+                  <label for="name">Name</label>
+                    <input name="name" type="text" value="<%= indOne.name %>" />
+                     
+                  <label for="comment">Message</label>
+                    <input name="comment" type="text" value="<%= indOne.comment %>" />
+                  
+                   <label for="email">Email</label> 
+                    <input name="email" type="text" value="<%= indOne.email %>" />
+                    
+                       <button type="submit">Update</button>
+                  </div>
+          </form>
+          
+           <% }); %>
+   
 
-</form>
-     <% }); %>    
-    
- <% include ../partials/footer %>
+
+<% include ../partials/footer %>

@@ -1,0 +1,244 @@
+<% include ../partials/header %>
+
+    <div class="container">
+        
+        <% result.forEach(function(product) { %> 
+        
+           <div class="item">
+               <h1 class="itemtitle">Id: <%= product.Id %> </h1>
+                        <p class="itemp"><b>Title:</b><%= product.title %></p><br>
+                        <p class="itemp"><b>Price: €</b><%= product.price %></p><br>
+                        <p class="itemp"><b>Size:</b><%= product.size %></p><br>
+                        <p class="itemp"><b>Description: </b><%= product.activity %></p><br>
+                         <img src="/<%= product.image_url %>" class="pimage"  />
+                         </div>
+        
+        
+          <% }); %>
+        
+        <h2>Photo Gallery</h2>
+
+        <div id="myBtnContainer">
+                  <button class="btn active" onclick="filterSelection('all')"> Show all</button>
+                  <button class="btn" onclick="filterSelection('blue')"> Blue</button>
+                  <button class="btn" onclick="filterSelection('green')"> Green</button>
+                  <button class="btn" onclick="filterSelection('orange')"> Orange</button>
+                  <button class="btn" onclick="filterSelection('white')"> White</button>
+        </div>
+         
+        <div class="row">
+                  
+              <div class="column">
+                  <div class="hvrbox">
+                       <img src="/sunrise.jpg" alt="Sun Rise" class="filterDiv hover sun orange">
+                  	   <div class="hvrbox-layer_top">
+                        		<div class="hvrbox-text">
+                        		    <p id="image-name">Sun</p>
+                                <p id="item-value">€15</p>
+                                <span class="add-icon"><i class="fas fa-plus"></i></span>
+                                
+                        		 </div>
+                  	   </div>
+                  </div>
+                  <div class="hvrbox">
+                       <img src="/travel.jpg" alt="Travel" class="filterDiv travel blue"></a>
+                  	   <div class="hvrbox-layer_top">
+                        		<div class="hvrbox-text">
+                        		    <p id="image-name">Travel</p>
+                                <p id="item-value">€15</p>
+                                <span class="add-icon"><i class="fas fa-plus"></i></span>
+                                
+                        		</div>
+                  	   </div>
+                  </div>
+                  
+                  <div class="hvrbox">
+                       <img src="/plant.jpg" alt="Plant" class="filterDiv plant green white"></a>
+                  	   <div class="hvrbox-layer_top">
+                        		<div class="hvrbox-text">
+                        		    <p id="image-name">Plant</p>
+                                <p id="item-value">€12</p>
+                                <span class="add-icon"><i class="fas fa-plus"></i></span>
+                                
+                        		</div>
+                  	   </div>
+                  </div>
+                      
+              </div>
+                   <div class="column">
+                       <div class="hvrbox">
+                         <img src="/flower.jpg"  alt="Flowers" class="filterDiv flower pink">
+                    	   <div class="hvrbox-layer_top">
+                          		<div class="hvrbox-text">
+                          		    <p id="image-name">Flower</p>
+                                  <p id="item-value">€25</p>
+                                  <span class="add-icon"><i class="fas fa-plus"></i></span>
+                                  
+                          		</div>
+                    	   </div>
+                        </div>
+                        <div class="hvrbox">
+                           <img src="/tree.jpg" alt="Trees" class="filterDiv tree blue orange">
+                      	   <div class="hvrbox-layer_top">
+                            		<div class="hvrbox-text">
+                            		    <p id="image-name">Plant</p>
+                                    <p id="item-value">€12</p>
+                                    <span class="add-icon"><i class="fas fa-plus"></i></span>
+                                    
+                            		</div>
+                      	   </div>
+                        </div>
+                        <div class="hvrbox">
+                           <img src="/house.jpg" alt="House scene"  class="filterDiv house blue green">
+                      	   <div class="hvrbox-layer_top">
+                            		<div class="hvrbox-text">
+                            		    <p id="image-name">House</p>
+                                    <p id="item-value">€8</p>
+                                    <span class="add-icon"><i class="fas fa-plus"></i></span>
+                                    
+                            		</div>
+                      	    </div>
+                        </div>
+                        <div class="hvrbox">
+                            <img src="/forst.jpg" alt="Forst" class="filterDiv forst white">
+                      	    <div class="hvrbox-layer_top">
+                            		<div class="hvrbox-text">
+                            		    <p id="image-name">House</p>
+                                    <p id="item-value">€8</p>
+                                    <span class="add-icon"><i class="fas fa-plus"></i></span>
+                                    
+                            		</div>
+                      	    </div>
+                        </div>
+
+                   </div>
+                   <div class="column">
+                      <div class="hvrbox">
+                         <img src="/scene.jpg" alt="Scenes" class="filterDiv scene white pink">
+                    	   <div class="hvrbox-layer_top">
+                          		<div class="hvrbox-text">
+                          		    <p id="image-name">Scene</p>
+                                  <p id="item-value">€32</p>
+                                  <span class="add-icon"><i class="fas fa-plus"></i></span>
+                                  
+                          		</div>
+                    	   </div>
+                        </div>
+                        <div class="hvrbox">
+                           <img src="/desert.jpg" alt="Desert" class="filterDiv desert blue orange">
+                      	   <div class="hvrbox-layer_top">
+                            		<div class="hvrbox-text">
+                            		    <p id="image-name">Desert</p>
+                                    <p id="item-value">€39</p>
+                                    <span class="add-icon"><i class="fas fa-plus"></i></span>
+                                    
+                            		</div>
+                      	   </div>
+                      </div>
+                      <div class="hvrbox">
+                           <img src="/sea.jpg" alt="Sea" class="filterDiv sea green blue">
+                      	   <div class="hvrbox-layer_top">
+                            		<div class="hvrbox-text">
+                            		    <p id="image-name">House</p>
+                                    <p id="item-value">€8</p>
+                                    <span class="add-icon"><i class="fas fa-plus"></i></span>
+                                    
+                            		</div>
+                      	   </div>
+                      </div>
+
+                  </div>
+                   <div class="column">
+                     <div class="hvrbox">
+                         <img src="/mountain.jpg" alt="Mountains" class="filterDiv mountain blue green">
+                    	   <div class="hvrbox-layer_top">
+                          		<div class="hvrbox-text">
+                          		    <p id="image-name">Mountain</p>
+                                  <p id="item-value">€15</p>
+                                  <span class="add-icon"><i class="fas fa-plus"></i></span>
+                                  
+                          		</div>
+                    	   </div>
+                     </div>
+                     <div class="hvrbox">
+                          <img src="/snow.jpg" alt="snow" class="filterDiv snow white">
+                      	   <div class="hvrbox-layer_top">
+                            		<div class="hvrbox-text">
+                            		    <p id="image-name">Plant</p>
+                                    <p id="item-value">€12</p>
+                                    <span class="add-icon"><i class="fas fa-plus"></i></span>
+                                    
+                            		</div>
+                      	   </div>
+                      </div>
+                      <div class="hvrbox">
+                           <img src="/sun.jpg" alt="Sun" class="filterDiv sun orange">
+                      	   <div class="hvrbox-layer_top">
+                            		<div class="hvrbox-text">
+                            		    <p id="image-name">Sun</p>
+                                    <p id="item-value">€15</p>
+                                    <span class="add-icon"><i class="fas fa-plus"></i></span>
+                                    
+                            		</div>
+                      	   </div>
+                      </div>
+                   </div>
+                  
+                </div>
+       
+        </div>
+    
+    <script>
+       
+       //Make filter working
+           filterSelection("all")
+            function filterSelection(c) {
+            var x, i;
+            x = document.getElementsByClassName("filterDiv");
+            if (c == "all") c = "";
+            // Add the "show" class (display:block) to the filtered elements, and remove the "show" class from the elements that are not selected
+            for (i = 0; i < x.length; i++) {
+              w3RemoveClass(x[i], "show");
+              if (x[i].className.indexOf(c) > -1) w3AddClass(x[i], "show");
+            }
+          }
+          
+          // Show filtered elements
+          function w3AddClass(element, name) {
+            var i, arr1, arr2;
+            arr1 = element.className.split(" ");
+            arr2 = name.split(" ");
+            for (i = 0; i < arr2.length; i++) {
+              if (arr1.indexOf(arr2[i]) == -1) {
+                element.className += " " + arr2[i];
+              }
+            }
+          }
+          
+          // Hide elements that are not selected
+          function w3RemoveClass(element, name) {
+            var i, arr1, arr2;
+            arr1 = element.className.split(" ");
+            arr2 = name.split(" ");
+            for (i = 0; i < arr2.length; i++) {
+              while (arr1.indexOf(arr2[i]) > -1) {
+                arr1.splice(arr1.indexOf(arr2[i]), 1);
+              }
+            }
+            element.className = arr1.join(" ");
+          }
+          
+          // Add active class to the current control button (highlight it)
+          var btnContainer = document.getElementById("myBtnContainer");
+          var btns = btnContainer.getElementsByClassName("btn");
+          for (var i = 0; i < btns.length; i++) {
+            btns[i].addEventListener("click", function() {
+              var current = document.getElementsByClassName("active");
+              current[0].className = current[0].className.replace(" active", "");
+              this.className += " active";
+            });
+          }
+</script>
+
+    
+ <% include ../partials/footer %>

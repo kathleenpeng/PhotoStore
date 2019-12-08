@@ -1,35 +1,51 @@
  <% include ../partials/header %>
+ 
+ <div class = "container">
 
-                <div class="row">
-                    <div class="item">   
-                         <h1 class="itemtitle">Welcome to the cart page</h1>
-                    </div>
-                </div>
-            
-            
-                <div class="item"> 
-                <h1 class="itemtitle"><%= greeting %></h1>
-                </div>
-            
-                <div class="grid-container">
-                       <% res1.forEach(function(product) { %>
-                            
-                               <div class="item">     
-                                    <div class="item">
-                                       <h1 class="itemtitle">Id: <%= product.Id %></h1>
-                                       <p class="itemp"> Title <%= product.title %></p>
-                                       <p class="itemp"> Price <%= product.price %></p>
-                                    
-                                        
-                                    </div>
-                                </div>
-                                  
-                             <% }); %>
-                </div>
+    <h1>Shopping Cart</h1><br><br>
+    
 
-      <a href="#">Remove</a>
- <hr>     
-      <div><strong>Total:</strong></div>
+    <div class="shopping-cart">
+       <div class="rowblock">
+             <hr>
+             <% result.forEach(function(additem) { %> 
+               
+               <div class="columnline">
+                       <!--<div class="item">-->
+                               <!--<h1 class="itemp">Id: <%//= additem.Id %></h1>-->
+                               <div class="box"><a href="/cart/<%= additem.Id %>"><img style="width: 120px; height: auto;" src="/<%= additem.image_url %>" class="pimage" class="filterDiv hover sun orange"></a></div>
+                               <p class="box"> <%= additem.title %></p>
+                               <p class="box"><%= additem.price %></p>
+                      <!--</div>-->
+               </div>
       
-    <a href="/payment" class="button">Checkout</a>   
+               <hr>
+               
+               <% }); %>
+               
+               
+          
+      
+                <div class="totals">
+                    <div class="totals-item">
+                          <label>Subtotal</label>
+                          <div class="totals-value" id="cart-subtotal">71.97</div>
+                    </div>
+                    <div class="totals-item">
+                          <label>Tax (5%)</label>
+                          <div class="totals-value" id="cart-tax">3.60</div>
+                    </div>
+                    
+                    <div class="totals-item totals-item-total">
+                          <label>Grand Total</label>
+                          <div class="totals-value" id="cart-total">90.57</div>
+                    </div>
+             </div>
+      
+            <button type="button"><a href="/payment">Checkout</a></button>
+       </div>
+    </div> 
+        
+</div> 
+
 <% include ../partials/footer %>

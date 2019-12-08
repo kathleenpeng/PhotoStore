@@ -2,11 +2,15 @@
    
        <div class="title">
               <h2>Upload Image</h2>
+               <p><%= typeof msg != 'undefined' ? msg : '' %></p>
        </div>
+        <div class="container">
   
-        <form action="/upload"  id="uploadForm" ref="uploadForm" method="post" enctype="multipart/form-data">
-            <%= typeof msg != 'undefined' ? msg : '' %>
-             <div class="formgroup">
+          <form action="/upload" method="POST" enctype="multipart/form-data">
+            
+            <div class="file-field input-field">
+            
+                <div class="formgroup">
                     <label for="title"><b>Title</b></label> 
                     <input name="title" type="text" placeholder="Enter image title" />
                     <label for="price"><b>Price</b></label> 
@@ -15,16 +19,19 @@
                     <input name="size" type="text" placeholder="Enter size" />
                     <label for="activity"><b>Description</b></label>
                     <input name="activity" type="text" placeholder="Enter activity" />
+                     <input class="btn" name="myImage" type="file">
                     
-                    
-                         <label for="image_url"><b>Image</b></label>
-                    <input name="image_url" type="text" placeholder="Enter image" />
-                    
-                    
-                    <!--<input class="btn" type="file" name="sampleFile" />-->
-                    <button>Upload Image</button>
+                    <button type="submit">Upload Image</button>
+  
               </div>
-        </form>
-        <br>
-    <img src="<%= typeof file != 'undefined' ? file : '' %>" class="responsive-img">
+          
+            </div>
+           
+            
+          </form>
+          <div class="title">
+             <img src="<%= typeof file != 'undefined' ? file : '' %>" class="responsive-img">
+          </div>
+  </div>
+    
 <% include ../partials/footer %>

@@ -1,36 +1,33 @@
 var express = require("express"); // call the express module which is default provded by Node
+
+
 var app = express(); // now we need to declare our app which is the envoked express application
+app.set('view engine','ejs');// Set the template engine 
+
+const multer = require('multer');
+const ejs = require('ejs');
+const path = require('path');
+
+const session = require('express-session');
+
+
+// EJS
+app.set('view engine', 'ejs');
+
+//Set Static Folders
+app.use(express.static('./public'));//Access to public folder
+// app.use(express.static('public'));
+app.use(express.static("views")); // Allow access to views folder
+app.use(express.static("style")); // Allow access to styling folder
+app.use(express.static("images")); // Allow access to images
+
+
 var mysql = require('mysql');
-
-app.set('view engine','ejs');//set template engine ejs
-app.use(express.urlencoded({extended:false}));
-
-var fileUpload = require('express-fileupload');
-
-app.use(fileUpload());
 
 // body parser to get information
 var fs = require('fs')
 var bodyParser = require("body-parser") // Call body parser modul and make use of it
 app.use(bodyParser.urlencoded({extended:true}));
-
-
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-var localStorage = require('node-localstorage');
-var session = require('express-session');
-var cookieParser = require('cookie-parser');
-var flash = require('connect-flash');
-var bcrypt = require('bcrypt-nodejs');
-app.use(cookieParser()); // read cookies (needed for auth)
-
-
-
-//Set Static Folder
-app.use(express.static("views")); // Allow access to views folder
-app.use(express.static("style")); // Allow access to styling folder
-app.use(express.static("images")); // Allow access to images
-
 
 
 // required for passport 
@@ -39,12 +36,58 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 } )); // session secret
+
+
+
+
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const localStorage = require('node-localstorage');
+const expressValidator = require('express-validator');
+const cookieParser = require('cookie-parser');
+const flash = require('connect-flash');
+const bcrypt = require('bcrypt-nodejs');
+
+
+
+app.use(express.urlencoded({extended:false}));// body parser to get information
+//app.use(bodyParser.json());
+//app.use(fileUpload());
+app.use(cookieParser()); // read cookies (needed for auth)
+
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
+//express validator middleware
+// app.use(expressValidator({
+//     errorFormatter: function(param, msg, value) {
+//         var namespace = param.split('.')
+//         , root = namespace.shift()
+//         , formParam = root;
+//         while(namespace.length) {
+//             formParam +='[' + namespace.shift()+']';
+//         }
+        
+//         return {
+//             param: formParam,
+//             msg : msg,
+//             value: value
+//         }
+//     }
+// }))
 
-// *****************************************Start of SQL **********************************
+// Express message middleware
+app.use(require('connect-flash')());
+app.use(function (req, res, next) {
+  res.locals.messages = require('express-messages')(req, res);
+  next();
+});
+
+
+
+
+// *****************************************Start of SQL *******************************************
 
 const connection = mysql.createConnection({
     host: 'den1.mysql6.gear.host',
@@ -54,7 +97,6 @@ const connection = mysql.createConnection({
 });
 
 //Next we need to create a connectin to the database
-
 connection.connect((err) =>{
      if(err){
         console.log("go back and check the connection details. Something is wrong.");
@@ -66,129 +108,56 @@ connection.connect((err) =>{
 });
 
 connection.on('error', function(err) {
-  console.log("[mysql error]",err);
+  console.log(err.code);
 });
 
-//The following to show data in terminal line
-// connection.connect();
-
-// connection.query('SELECT * FROM paint', function(err, rows, fields) 
-// {
-//   if (err) throw err;
-
-//   console.log(rows[20]);
-// });
-
-// connection.end();
-
-// connection.on('connection', function (connection) {
-//   connection.query('SET SESSION auto_increment_increment=1')
-// });
+setInterval(function () {
+    connection.query('SELECT 1');
+}, 5000);
 
 
-
-//The following line get rid of Error: Cannot enqueue Handshake after invoking quit
-connection.on('enqueue', function () {
-  console.log('Waiting for available connection slot');
-});
-
-
-// //-------------------------------------------------------------
-// connection.connect();
-
-// connection.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
-//   if (error) throw error;
-//   console.log('The solution is: ', results[0].solution);
-// });
-
-// connection.end();
-
-
-
-//the following code to connection pool and handling disconnect
-// setInterval(function () {
-//     connection.query('SELECT 1');
-// }, 3000);
-
-//Drop Table
-// db.connect(function(err) {
-//   if (err) throw err;
-//   var sql = "DROP TABLE paint";
-//   db.query(sql, function (err, result) {
-//     if (err) throw err;
-//     console.log("Table deleted");
-//   });
-// });
-
-
-
-// CREATE TABLE users Id username, email, password
-// app.get('/createusers', function(req, res){
-// let sql = 'CREATE TABLE users (Id int NOT NULL AUTO_INCREMENT PRIMARY KEY, username varchar(255), email varchar(255), password varchar(255));'
-// let query = connection.query(sql, (err,res) => { if(err) throw err;
-// });
-// res.send("SQL Worked"); 
-//     console.log("sqllllllll");
-// });
-
-// CREATE TABLE paint Id author, title, image_url, price, size
+//CREATE TABLE paint Id author, title, image_url, price, size
 // app.get('/createimages', function(req, res){
 // let sql = 'CREATE TABLE paint (Id int NOT NULL AUTO_INCREMENT PRIMARY KEY, author varchar(255),title varchar(255),price int, size varchar(255),activity varchar(255), image_url varchar(255))';
 // let query = connection.query(sql, (err,res) => { 
 //     if(err) throw err;
 // });
-//  res.send("SQL Worked"); 
-//     console.log("to see if paint table exists");
-// });
-
-// app.get('/make', function(req, res){
-// let sql = 'INSERT INTO paint (author, title, price, size, activity, image_url) values ?';
-//  let   values =[
-    
-//     ["Ann Talor", "Sun Orange", 15, "1500x1200px","The image was took on Dublin","sun.jpg"],
-//     ["Peter Dawn", "Flowers", 25, "4896×3060px","The image was took on gardan","flower.jpg"],
-//     ["Amy Talor", "Scenes", 32, "3643×5468px","The image was took on site","scene.jpg"],
-//     ["Hannah Ryan", "Mountain", 15, "1500x1200px","The image was took on Wicklow","mountain.jpg"],
-//     ["Michael Doe", "Traval", 15, "3630×5445px","The image was took on Galway","traval.jpg"],
-//     ["Sandy Lee", "Tree", 17, "1500x1200px","The image was took on Limrick","tree.jpg"],
-//     ["Betty Zen", "Desert", 39, "6600×5100px","The image was took on Desert","desert.jpg"],
-//     ["Richard Ryan", "Snow", 15, "4000×6000px","The image was took on Canada","snow.jpg"],
-//     ["Susan Howard", "House", 8, "1280×853px","The image was took on Sligo","house.jpg"],
-//     ["Vicky Lee", "Sun Rise", 15, "1500x1200px","The image was took on Meath","sunrise.jpg"],
-//     ["Ben Fox", "Sea", 158, "1700x1500px","The image was took on Malahide","sea.jpg"],
-//     ["William Talor", "Plant", 12, "1500x1200px","The image was took on backyard","plant.jpg"],
-//     ["Sara Yo", "Forst", 28, "5184×3456px","The image was took on Belfast","forst.jpg"]
-    
-//     ];
-    
-// let query = connection.query(sql,[values], (err,res) => { if(err) throw err;
-// });
-// res.send("SQL Worked"); 
-//     console.log("Number of values inserted: " + res.affectedRows);
+//   res.send("SQL Worked"); 
+//     console.log("Paint table exists!!!");
 // });
 
 
 
-// app.get('/product', function(req, res) {
-// res.render("product"); // we set the response to send back the string hello world
-// console.log("Single product page"); // used to output activity in the console
-// });
+
+
+
+//****************************************  Pages ******************************
+// set up front page using the request and response function
+app.get('/', function(req, res) {
+res.render("index"); // we set the response to send back the string hello world
+console.log("Hello World"); // used to output activity in the console
+});
+
+
+// URL to get the product page
+app.get('/products', function(req,res){
+    // Create a table that will show product Id, name, price, image and sporting activity
+  let sql = 'SELECT * FROM paint'
+  let query = connection.query(sql, (err,result) => { 
+      
+      if(err) throw err;
+  
+  res.render('products', {result});
+  console.log(result)
+});
+
+console.log("Product gallery displayed");
+
+});
+
 
 //URL to get the product ID
-// app.get('/product/:id', function(req,res){
-//     // Create a table that will show product Id, title, price, image and sporting activity
-//   let sql = 'SELECT * FROM paint WHERE Id = "'+req.params.id+'" ; ';
-//   let query = connection.query(sql, (err,result) => { 
-      
-//       if(err) throw err;
-  
- 
-//   console.log(result);
-//   res.render('product', {result})
-//   });
-// })
-//The route to render the products page
-app.get('/products', function(req,res){
+app.get('/product/:id', function(req,res){
     // Create a table that will show product Id, title, price, image and sporting activity
   let sql = 'SELECT * FROM paint WHERE Id = "'+req.params.id+'" ; ';
   let query = connection.query(sql, (err,result) => { 
@@ -197,176 +166,197 @@ app.get('/products', function(req,res){
   
  
   console.log(result);
-   res.render('products', {result})
+  res.render('product', {result})
   });
-})
-
-
-//The route to render the upload page
-app.get('/upload', function(req, res){
-
-
-// var filename;
-// // post request url
-// app.post('/upload', function(req, res){
-    
-//  /// Upload image also 
-//     if (!req.files)
-//     return res.status(400).send('No files were uploaded.');
-
- 
-//  let sampleFile = req.files.sampleFile;
-//   filename = sampleFile.name;
-//  // we use the middleware (file upload ) to move the data from the form to the desired location
-//     sampleFile.mv('./images/' + filename, function(err){
-//         if(err)
-//         return res.status(500).send(err);
-       
-        
-//         console.log("Image is " + filename);
-       
-        
-//         // res.redirect('/alluploadproducts');
-//     });
-    
-    // let sql = 'INSERT INTO paint (title, price, size,activity, image_url) VALUES ("'+req.body.title+'", '+req.body.price+', "'+req.body.size+'", "'+req.body.activity+'","'+req.body.filename+'")'
-       let sql = 'INSERT INTO paint (title, price, size,activity, image_url) VALUES ("'+req.body.title+'", '+req.body.price+', "'+req.body.size+'", "'+req.body.activity+'","'+req.body.image_url+'")'
-
-     let query = connection.query(sql, (err,res) => {
-        if(err) throw err;
-    });
-    
-    console.log("line239");
-    res.redirect("/alluploadproducts");
-
 });
 
 
-// app.get('/alluploadproducts', function(req, res){
-//   res.render('alluploadproducts')  
+// URL to get the event page
+app.get('/event', function(req,res){
+    // Create a table that will show product Id, name, price, image and sporting activity
+  
+        res.render('event');
+        console.log("event page has been displayed")
+    
+});
+
+
+app.get("*", function(req, res, next) {
+    res.locals.cart = req.session.cart;
+    next();
+})
+// URL to get the payment page
+// app.get('/cart', function(req,res){
+//     // Create a table that will show product Id, name, price, image and sporting activity
+  
+//         res.render('cart');
+//         console.log("cart page has been displayed")
+    
 // });
 
-// // URL to get the product page
-app.get('/alluploadproducts', function(req,res){
-    // Create a table that will show product Id, name, price, image and sporting activity
-  let sql = 'SELECT * FROM paint'
+// URL to get the product page
+// app.get('/cart', function(req,res){
+//     // Create a table that will show product Id, name, price, image and sporting activity
+//   let sql = 'SELECT * FROM cartitem'
+//   let query = connection.query(sql, (err,result) => { 
+      
+//       if(err) throw err;
+  
+//   res.render('cart', {result});
+//   console.log(result)
+// });
+
+// console.log("You are in cart section");
+
+//     console.log("line 196"); 
+// });
+
+//URL to add to cart
+app.get('/cart/:id', function(req,res){
+    // Create a table that will show product Id, title, price, image and sporting activity
+  let sql = 'SELECT * FROM paint WHERE Id = "'+req.params.id+'" ; ';
   let query = connection.query(sql, (err,result) => { 
       
       if(err) throw err;
   
-  res.render('alluploadproducts', {result});
-  console.log(result)
-});
-
-console.log("You created you first product");
-
-    console.log("line 263"); 
-});
-
-
-
-
-// URL to get the edit product page
-
-app.get('/editproduct/:id', function(req,res){
-    
-    console.log("line 273");
-    let sql = 'SELECT * FROM paint WHERE Id =  "'+req.params.id+'" ';
-    
-    let query = connection.query(sql, (err,result) => {
-        
-        if(err) throw err;
-        
-        console.log(result);
-        
-        res.render('editproduct', {result})
-        
-    });
-    
-    
+  
+  
+  
+    //      if (typeof req.session.cart == "undefined") {
+    //       req.session.cart = [];
+    //       req.session.cart.push ({
+    //           title: req.body.title,
+    //           qty: 1,
+    //           price: parseFloat(req.body.price).toFixed(2),
+    //           image_url: '/images/'+req.params.Id+"/"+req.body.image_url
+    //       });
+    //   } else {
+    //       var cart = req.session.cart;
+    //       var newItem = true;
+          
+    //       for ( var i =0; i < cart.length; i++) {
+    //           if (cart[i].req.body.title == req.params.id) {
+    //             cart[i].qty++;
+    //             newItem = false;
+    //             break;
+            
+    //             }
+          
+    //          }
+             
+    //          if (newItem) {
+                 
+    //              cart.push ({
+    //               title: req.body.title,
+    //               qty: 1,
+    //               price: parseFloat(req.body.price).toFixed(2),
+    //               image_url: req.params.Id+"/"+req.body.image_url
+    //           });
+                 
+    //          }
+             
+             
+             
+    //       }
+ 
+  console.log(req.session.cart);
+  
+  req.flash("success", "Product added")
+  res.render('cart', {result})
+  });
 })
-    
- // URL to edit product
-   
-  app.post('/editproduct/:id', function(req,res){
-    // Create a table that will show product Id, name, price, image and description
-    let sql = 'UPDATE paint SET title = "   '+req.body.title+'   ", price = '+req.body.price+', size = "'+req.body.size+'", activity = "'+req.body.activity+'", image_url = "'+req.params.filename+'" WHERE Id =  "'+req.params.id+'" ';
-    
-    let query = connection.query(sql, (err,res) => {
-        
-        if(err) throw err;
-        
-        console.log(res);
-        
-    });
-    
-    res.redirect('/alluploadproducts')
-    //res.send("You created your first Product")
-    
-}) 
 
-// Delete product
 
-app.get('/delete/:id',  function(req, res){
-    let sql = 'DELETE FROM paint WHERE Id = "'+req.params.id+'" ; ';
-  let query = connection.query(sql, (err, res1) => {
+app.post('/cart/:id', function(req, res){
+ 
+  let sql = 'INSERT INTO cartitem (imageid, image, title, price) VALUES ("'+req.params.id+'", '+req.body.image_url+', "'+req.body.title+'", "'+req.body.price+'")';
+
+  
+  let query = connection.query(sql, (err, res) => {
     if(err) throw err;
     console.log(res);
     
-    res.redirect('/alluploadproducts'); // This will render the index.jade page for us
+    
   });
-  
-    //res.send("Hello Lovely World"); // send the response as a string Hello World
-    console.log("That worked");
-    
+  console.log("added info to database table"); 
+  res.redirect("/cart");
+  });
+
+
+
+
+
+
+
+
+// URL to get Image Upload page
+app.get('/upload', (req, res) => res.render('upload'));
+
+//***************************************************Upload file*******************************************
+//Set The Storage Engine
+const storage = multer.diskStorage({
+  destination: './public/uploads/',
+  filename: function(req, file, cb){
+    cb(null,file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  }
+});
+
+// Init Upload
+const upload = multer({
+  storage: storage,
+  limits:{fileSize: 1000000},
+  fileFilter: function(req, file, cb){
+    checkFileType(file, cb);
+  }
+}).single('myImage');
+
+// Check File Type
+function checkFileType(file, cb){
+  // Allowed ext
+  const filetypes = /jpeg|jpg|png|gif/;
+  // Check ext
+  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+  // Check mime
+  const mimetype = filetypes.test(file.mimetype);
+
+  if(mimetype && extname){
+    return cb(null,true);
+  } else {
+    cb('Error: Images Only!');
+  }
+}
+
+
+
+app.post('/upload', (req, res) => {
+  upload(req, res, (err) => {
+    if(err){
+      res.render('upload', {
+        msg: err
+      });
+    } else {
+      if(req.file == undefined){
+        res.render('upload', {
+          msg: 'Error: No File Selected!'
+        });
+      } else {
+        res.render('upload', {
+          msg: 'File Uploaded!Pending for approval',
+          file: `uploads/${req.file.filename}`
+        });
+      }
+    }
+  });
 });
 
 
-//URL to get the editprofile
-app.get('/editprofile', function(req, res) {
-	res.render('editprofile', {
-		user : req.user // get the user out of session and pass to template
-	});
-});
 
-// URL to get the edit product page
+//**************************End of SQL ******************************
 
-app.get('/editprofile/:id', function(req,res){
-    
-    
-    let sql = 'SELECT * FROM users WHERE Id =  "'+req.params.id+'" ';
-    
-    let query = connection.query(sql, (err,result) => {
-        
-        if(err) throw err;
-        
-        console.log(result);
-        
-        res.render('editprofile', {result})
-        
-    });
-    
-    
-})
-    
- // URL to edit profile
-   
-  app.post('/editprofile/:id', function(req,res){
-    // Create a table that will show product Id, name, price, image and description
-    let sql = 'UPDATE users SET username = "   '+req.body.username+'   ", email = "'+req.body.email+'", password = "'+req.body.password+'" WHERE Id =  "'+req.params.id+'" ';
-    
-    let query = connection.query(sql, (err,res) => {
-        
-        if(err) throw err;
-        
-        console.log(res);
-        
-    });
-    
-    res.redirect('/profile')
-    //res.send("You created your first Product")
-    
-}) 
+
+
+
+
 
 
 // --------------------------------------------------------- Authenthication ------------------------------------------------------------ //
@@ -449,17 +439,77 @@ app.post('/register', passport.authenticate('local-signup', {
 
 
 
-
+// URL to get the dashboard page
+app.get('/dashboard',isLoggedIn, function(req,res){
+    // Create a table that will show product Id, name, price, image and sporting activity
+  
+        res.render('dashboard',{ name: req.user.username});
+        console.log("dashboard page has been displayed")
+    
+});
 // =====================================
 // PROFILE SECTION =========================
 // =====================================
 // we will want this protected so you have to be logged in to visit
 // we will use route middleware to verify this (the isLoggedIn function)
-app.get('/profile', function(req, res) {
+app.get('/profile',function(req, res) {
 	res.render('profile', {
 		user : req.user // get the user out of session and pass to template
 	});
 });
+
+// app.get('/profile', isLoggedIn, function(req, res){  // I have this restricted for admin just for proof of concept
+//  let sql = 'SELECT * FROM users'
+//   let query = connection.query(sql, (err, result) => {
+//     if(err) throw err;
+//     console.log(result);
+
+//     res.render('profile', {result});
+//   });
+ 
+//   console.log("Now you are on the products page!");
+// });
+
+// app.get('/editprofile',function(req, res) {
+// // 	res.render('editprofile', {
+// // 		user : req.user // get the user out of session and pass to template
+		
+// // 	});
+//     res.render("editprofile"); // we set the response to send back the string hello world
+// console.log("Edit profile page"); 
+// });
+
+// // Edit Profile
+
+app.get('/editprofile/:id', function(req, res){
+    let sql = 'SELECT * FROM users WHERE Id = "'+req.params.id+'" ';
+  let query = connection.query(sql, (err, result) => {
+    if(err) throw err;
+    console.log(result);
+    
+    res.render('editprofile', {result}); // This will render the index.jade page for us
+  });
+  
+    //res.send("Hello Lovely World"); // send the response as a string Hello World
+    console.log("Edit profile worked");
+    
+});
+// // ***** Post new product to database
+
+app.post('/editprofile/:id', function(req, res){
+      let sql = 'UPDATE users SET username = "'+req.body.username+'", email = "'+req.body.email+'", password = "'+req.body.password+'" WHERE Id = "'+req.params.id+'"';
+   // let sql = 'UPDATE users SET username = ?, email = ?, password = ? WHERE Id = ?';
+
+  
+  let query = connection.query(sql, (err, result) => {
+    if(err) throw err;
+    console.log(result);
+    console.log(result.affectedRows + " record(s) updated");
+    
+    
+  });
+  res.redirect("/profile");
+  });
 
 // =====================================
 // LOGOUT ==============================
@@ -476,8 +526,8 @@ function isLoggedIn(req, res, next) {
 	if (req.isAuthenticated())
 		return next();
 
-	// if they aren't redirect them to the home page
-	res.redirect('/');
+	// if they aren't, redirect them to the home page
+	res.redirect('/products');
 }
 
 
@@ -546,42 +596,21 @@ passport.use(
 );
 
 
-//Modify the user table to add a Boolean for admin
-// app.get('/alter', function(req, res){
-//  let sql = 'ALTER TABLE users ADD COLUMN admin BOOLEAN DEFAULT FALSE;'
-//   let query = db.query(sql, (err, res) => {
-//     if(err) throw err;
-//     console.log(res);
-    
-    
-//   });
-//   res.send("altered");
-//   });
-// see are they admin
-// function isAdmin(req, res, next) {
 
-// 	// if user is authenticated in the session, carry on
-// 	if (req.user.admin)
-// 		return next();
-
-// 	// if they aren't redirect them to the home page
-// 	res.redirect('/');
-// }
-
-
-
-
-// // ******************************************From here is JSON data ********************************
+// ******************************************From here is JSON data , contatc us form********************************
 var contact = require("./model/contact.json");
 
 app.get('/contacts', function(req,res){
     res.render("contacts", {contact}); //Get the contacts page when somebody visits the /contacts url
     console.log("contacts page has been displayed");
 });
-app.get('/contactform', function(req,res){
-    res.render("contactform"); //Get the contacts page when somebody visits the /contacts url
-    console.log("contact form page has been displayed");
+
+// Get the contact us page
+app.get('/contactform', function(req, res) {
+res.render("contactform"); // we set the response to send back the string I found the contact us page
+console.log("I found the contact us page"); // used to output activity in the console
 });
+
 
 //post request to send JSON data to server
 app.post("/contactform",function(req,res){
@@ -609,11 +638,9 @@ app.post("/contactform",function(req,res){
     
     var contactsx = {
         id: newId,
-        fullname: req.body.fullname,
-        email: req.body.email,
-        phonenumber: req.body.phonenumber,
-        message: req.body.message,
-        
+        name: req.body.name,
+        comment: req.body.comment,
+        email: req.body.email
         
     }
     fs.readFile('./model/contact.json','utf8', function readfileCallback(err){
@@ -627,9 +654,7 @@ app.post("/contactform",function(req,res){
         }
     })
     
-    res.redirect('/');
-    
-    
+    res.redirect('/contacts');
 });
 
 // Now we code for the edit JSON date
@@ -637,14 +662,14 @@ app.post("/contactform",function(req,res){
 // *** get page to edit 
 app.get('/editcontact/:id', function(req,res){
     // Now we build the actual information based on the changes made by the user 
-   function chooseContact(indOne){
-       return indOne.id === parseInt(req.params.id)
-       }
+  function chooseContact(indOne){
+      return indOne.id === parseInt(req.params.id)
+      }
 
 
   var indOne = contact.filter(chooseContact)
     
-   res.render('editcontact', {res:indOne}); 
+  res.render('editcontact', {res:indOne}); 
     
 });
 
@@ -661,13 +686,12 @@ app.get('/editcontact/:id', function(req,res){
     // use predetermined JavaScript functionality to map the data and find the Information i need
     var index = contact.map(function(contact) {return contact.id}).indexOf(keyToFind)
     
-    // the next Four lines get the content from the body where the user fills in the form 
+    // the next three lines get the content from the body where the user fills in the form 
     var z = parseInt(req.params.id);
-    var a = req.body.fullname   
-    var b = req.body.phonenumber
-    var c = req.body.message
+    var x = req.body.name   
+    var y = req.body.comment
     // The next section pushes the new data into the json file in place of the data to be updated
-    contact.splice(index, 1, {fullname: a, email: req.body.email, phonenumber: b, message: c, id: z })
+    contact.splice(index, 1, {name: x, comment: y, email: req.body.email, id: z })
     
     
     // Now we reformat the JSON and push it back to the actual file 
@@ -677,10 +701,7 @@ app.get('/editcontact/:id', function(req,res){
     res.redirect("/contacts");
 })
 
-
 app.get ('/deletecontact/:id', function(req,res){
-    
-    
     
     // firstly we need to stringify our JSON data so it can be call as a variable an modified as needed
     var json = JSON.stringify(contact)
@@ -690,12 +711,7 @@ app.get ('/deletecontact/:id', function(req,res){
     
     // use predetermined JavaScript functionality to map the data and find the information I need 
     var index = contact.map(function(contact) {return contact.id}).indexOf(keyToFind)
-    
-
     contact.splice(index, 1)
-    
-  
-    
     // now we reformat the JSON and push it back to the actual file
     json = JSON.stringify(contact, null, 4); // this line structures the JSON so it is easy on the eye
     fs.writeFile('./model/contact.json',json, 'utf8', function(){})
@@ -707,84 +723,22 @@ app.get ('/deletecontact/:id', function(req,res){
 })
 
 
-
-
-//--------------------------------URL to get Pages----------------------------------//
-
-// set up simple hello world application using the request and response function
-app.get('/',function(req, res) {
-res.render("index"); // we set the response to send back the string hello world
-console.log("Hello World"); // used to output activity in the console
-});
-
-
-// app.get('/products', function(req, res) {
-// res.render("products"); // we set the response to send back the string hello world
-// console.log("Displaying products page"); // used to output activity in the console
-// });
-
-
-
-// URL to get the product page
-app.get('/event', function(req,res){
-    // Create a table that will show product Id, name, price, image and sporting activity
-  
-        res.render('event');
-        console.log("event page has been displayed")
-    
-});
-
-
-// URL to get the dashboard page
-app.get('/dashboard', function(req,res){
-    // Create a table that will show product Id, name, price, image and sporting activity
-  
-        res.render('dashboard',{ name: req.user.username});
-        console.log("dashboard page has been displayed")
-    
-});
-
-// URL to get the payment page
-app.get('/payment', function(req,res){
-    // Create a table that will show product Id, name, price, image and sporting activity
-  
-        res.render('payment');
-        console.log("payment page has been displayed")
-    
-});
-
-// URL to get the payment page
-app.get('/forgot', function(req,res){
-    // Create a table that will show product Id, name, price, image and sporting activity
-  
-        res.render('forgot');
-        console.log("forgot page has been displayed")
-    
-});
-
-
-// app.get('/contacts',function(req, res){
-//     res.render("contacts");//Get the contacts page when somebody visits the /contacts url
-//     console.log("I found the contacts page");
-// });
-
-
-//------------------------------------------------To Make Search Bar working --------------------------------------------//
-app.get('/search',function(req,res){
-connection.query('SELECT title from users where paint like "%'+req.query.key+'%"',
-function(err, rows, fields) {
-if (err) throw err;
-var data=[];
-for(i=0;i<rows.length;i++)
-{
-data.push(rows[i].first_name);
-}
-res.end(JSON.stringify(data));
-});
-});
-
 // this code provides the server port for our application to run on
 app.listen(process.env.PORT || 3000, process.env.IP || "0.0.0.0", function() {
 console.log("Yippee its running");
-  
+
 });
+
+
+
+
+
+// // const port = 8080;
+
+// // app.listen(port, () => console.log(`Server started on port ${port}`));
+
+// // this code provides the server port for our application to run on
+// app.listen(process.env.PORT || 3000, process.env.IP || "0.0.0.0", function() {
+// console.log("Yippee its running");
+  
+// });

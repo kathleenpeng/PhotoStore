@@ -10,22 +10,22 @@
      <div class="titleinfo"> 
         <span>User Details</span>
      </div>
-     
+     <%// result.forEach(function(user) { %> 
      <div class="containercontent">
                 <p><strong class="itemp">User ID: </strong><%= user.Id %></p>
                 <p><strong class="itemp">User Name: </strong><%= user.username %>
-                <button class="submit">Edit</button></p>
+                <button class="submit"><a href="/editprofile/<%= user.Id %>">Edit</a></button></p>
                 <p><strong class="itemp">User Email: </strong><%= user.email %>
-                <button class="submit">Edit</button></p>
+                <button class="submit"><a href="/editprofile/<%= user.Id %>">Edit</a></button></p>
                 <p><strong class="itemp">Password: </strong><%= user.password %>
-                <button class="submit">Edit</button></p>
-       
+                <button class="submit"><a href="/editprofile/<%= user.Id %>">Edit</a></button></p><br><br><br>
+      
         </div>
-        <button><a href="/editprofile">Edit</a></button>
-
+        <!--<button><a href="/editprofile/<%//= user.Id %>">Edit</a></button>-->
+          <%// }); %>
 <!-- LOCAL INFORMATION --> 
     
-       <button><a href="/logout">Logout</a></button>
+       <!--<button><a href="/logout">Logout</a></button>-->
     
 
 </div>

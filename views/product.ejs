@@ -4,17 +4,20 @@
       
   <div class="container">
       <div class="contentrow">
+          <% result.forEach(function(product) { %> 
           <div class="im">
-           <P>This is test</P>
+           <img src="/<%= product.image_url %>" class="pimage" class="filterDiv hover sun orange">
           </div>
         <div class="info">
-             <P>This is test</P> 
-             
+             <p><b>Title:</b><%= product.title %></p>
+             <p><b>Price: €</b><%= product.price %></p>
+             <p><b>Size:</b><%= product.size %></p>
+             <p><b>Description: </b><%= product.activity %></p><br>
              
              <a href="/login" class="button">Login to proceed</a> 
         </div>
         
-        
+         <% }); %>
         
         </div>
         
