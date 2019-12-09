@@ -10,18 +10,16 @@
                
                    <div class="hvrbox">
                       <a href="/product/<%= product.Id %>"><img src="/<%= product.image_url %>" class="pimage" class="filterDiv hover sun orange"></a>
-                  	  
-                        	
                   </div>
                   <div class="layout">
                               <div class="left"><p id="item-value"><b>€<%= product.price %></b></p></div>
                               <div class="right">
                                   <a href="/cart/<%= product.Id %>" class="button">Add to Cart</a></div>
                               </div>
-                  </div>
+              </div>
             <% }); %>
         </div>
-    </div>
+       </div>
      </div>
     
  <% include ../partials/footer %>

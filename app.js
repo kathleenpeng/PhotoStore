@@ -1,7 +1,7 @@
-var express = require("express"); // call the express module which is default provded by Node
+const express = require("express"); // call the express module which is default provded by Node
 
 
-var app = express(); // now we need to declare our app which is the envoked express application
+const app = express(); // now we need to declare our app which is the envoked express application
 app.set('view engine','ejs');// Set the template engine 
 
 const multer = require('multer');
@@ -22,11 +22,11 @@ app.use(express.static("style")); // Allow access to styling folder
 app.use(express.static("images")); // Allow access to images
 
 
-var mysql = require('mysql');
+const mysql = require('mysql');
 
 // body parser to get information
-var fs = require('fs')
-var bodyParser = require("body-parser") // Call body parser modul and make use of it
+const fs = require('fs')
+const bodyParser = require("body-parser") // Call body parser modul and make use of it
 app.use(bodyParser.urlencoded({extended:true}));
 
 
@@ -36,9 +36,6 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 } )); // session secret
-
-
-
 
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
@@ -52,7 +49,6 @@ const bcrypt = require('bcrypt-nodejs');
 
 app.use(express.urlencoded({extended:false}));// body parser to get information
 //app.use(bodyParser.json());
-//app.use(fileUpload());
 app.use(cookieParser()); // read cookies (needed for auth)
 
 app.use(passport.initialize());
@@ -84,7 +80,12 @@ app.use(function (req, res, next) {
   next();
 });
 
-
+// catch 404 and forward to error handler
+// app.use(function(req, res, next) {
+//   var err = new Error('Not Found');
+//   err.status = 404;
+//   next(err);
+// });
 
 
 // *****************************************Start of SQL *******************************************
@@ -139,45 +140,51 @@ console.log("Hello World"); // used to output activity in the console
 });
 
 
-// URL to get the product page
+// URL to get products page
 app.get('/products', function(req,res){
-    // Create a table that will show product Id, name, price, image and sporting activity
+    // Select a table call paint which is hold all images details
   let sql = 'SELECT * FROM paint'
   let query = connection.query(sql, (err,result) => { 
-      
       if(err) throw err;
-  
   res.render('products', {result});
   console.log(result)
 });
-
 console.log("Product gallery displayed");
-
 });
 
 
 //URL to get the product ID
 app.get('/product/:id', function(req,res){
-    // Create a table that will show product Id, title, price, image and sporting activity
   let sql = 'SELECT * FROM paint WHERE Id = "'+req.params.id+'" ; ';
   let query = connection.query(sql, (err,result) => { 
-      
       if(err) throw err;
-  
- 
   console.log(result);
   res.render('product', {result})
   });
 });
-
-
 // URL to get the event page
 app.get('/event', function(req,res){
-    // Create a table that will show product Id, name, price, image and sporting activity
-  
         res.render('event');
         console.log("event page has been displayed")
+});
+
+// URL to get the payment page
+app.get('/payment', function(req,res){
+        res.render('payment');
+        console.log("payment page has been displayed")
     
+});
+
+// URL to get checkout page
+app.get('/checkout', function(req,res){
+    // Select a table call paint which is hold all images details
+  let sql = 'SELECT * FROM paint'
+  let query = connection.query(sql, (err,result) => { 
+      if(err) throw err;
+  res.render('checkout', {result});
+  console.log(result)
+});
+console.log("Checkout gallery displayed");
 });
 
 
@@ -185,31 +192,19 @@ app.get("*", function(req, res, next) {
     res.locals.cart = req.session.cart;
     next();
 })
-// URL to get the payment page
-// app.get('/cart', function(req,res){
-//     // Create a table that will show product Id, name, price, image and sporting activity
-  
-//         res.render('cart');
-//         console.log("cart page has been displayed")
-    
-// });
 
-// URL to get the product page
-// app.get('/cart', function(req,res){
-//     // Create a table that will show product Id, name, price, image and sporting activity
-//   let sql = 'SELECT * FROM cartitem'
-//   let query = connection.query(sql, (err,result) => { 
-      
-//       if(err) throw err;
-  
-//   res.render('cart', {result});
-//   console.log(result)
-// });
 
-// console.log("You are in cart section");
-
-//     console.log("line 196"); 
-// });
+// URL to get the cart page
+app.get('/cart', function(req,res){
+    // Create a table that will show product Id, name, price, image and sporting activity
+  let sql = 'SELECT * FROM cartitem'
+  let query = connection.query(sql, (err,result) => { 
+      if(err) throw err;
+  res.render('cart', {result});
+  console.log(result)
+});
+console.log("You are in cart section");
+});
 
 //URL to add to cart
 app.get('/cart/:id', function(req,res){
@@ -218,46 +213,6 @@ app.get('/cart/:id', function(req,res){
   let query = connection.query(sql, (err,result) => { 
       
       if(err) throw err;
-  
-  
-  
-  
-    //      if (typeof req.session.cart == "undefined") {
-    //       req.session.cart = [];
-    //       req.session.cart.push ({
-    //           title: req.body.title,
-    //           qty: 1,
-    //           price: parseFloat(req.body.price).toFixed(2),
-    //           image_url: '/images/'+req.params.Id+"/"+req.body.image_url
-    //       });
-    //   } else {
-    //       var cart = req.session.cart;
-    //       var newItem = true;
-          
-    //       for ( var i =0; i < cart.length; i++) {
-    //           if (cart[i].req.body.title == req.params.id) {
-    //             cart[i].qty++;
-    //             newItem = false;
-    //             break;
-            
-    //             }
-          
-    //          }
-             
-    //          if (newItem) {
-                 
-    //              cart.push ({
-    //               title: req.body.title,
-    //               qty: 1,
-    //               price: parseFloat(req.body.price).toFixed(2),
-    //               image_url: req.params.Id+"/"+req.body.image_url
-    //           });
-                 
-    //          }
-             
-             
-             
-    //       }
  
   console.log(req.session.cart);
   
@@ -267,30 +222,48 @@ app.get('/cart/:id', function(req,res){
 })
 
 
-app.post('/cart/:id', function(req, res){
- 
-  let sql = 'INSERT INTO cartitem (imageid, image, title, price) VALUES ("'+req.params.id+'", '+req.body.image_url+', "'+req.body.title+'", "'+req.body.price+'")';
-
+/**************************************cart****************************************/
+  // Add to cart
   
-  let query = connection.query(sql, (err, res) => {
-    if(err) throw err;
-    console.log(res);
-    
-    
-  });
-  console.log("added info to database table"); 
-  res.redirect("/cart");
-  });
+  
+//     insertCart(res, productId, userId)
+//     {
+//         this.connection.query("insert into shoppingcart set userid=?,productid=?", [userId, productId],
+//             function (err,result) {
+//                 if(err)
+//                 {
+//                     console.log("Add to cart failed");
+//                     res.send("0");
+//                 }
+//                 else
+//                 {
+//                     console.log("Add to cart successful");
+//                     res.send("1");
 
+//                 }
+//             })
+//     }
 
+// app.post('/addCart', function(req,res,next){
+// //   var conn = new Database();
+//   var productId = req.body.paintid;
+//   var user = req.session.userid;
+//   console.log(user);
+//   if(user)
+//   {
+//       connection.insertCart(res,productId,user);
+//   }
+//   else
+//   {
+//       res.redirect('/login');
+//   }
 
-
-
+// });
 
 
 
 // URL to get Image Upload page
-app.get('/upload', (req, res) => res.render('upload'));
+app.get('/upload',checkAuthenticated, (req, res) => res.render('upload'));
 
 //***************************************************Upload file*******************************************
 //Set The Storage Engine
@@ -355,24 +328,20 @@ app.post('/upload', (req, res) => {
 
 
 
-
-
-
-
 // --------------------------------------------------------- Authenthication ------------------------------------------------------------ //
 
 // =====================================
 // LOGIN ===============================
 // =====================================
 // show the login form
-app.get('/login', function(req, res) {
+app.get('/login',checkNotAuthenticated,function(req, res) {
 
 	// render the page and pass in any flash data if it exists
 	res.render('login.ejs', { message: req.flash('loginMessage') });
 });
 
 // process the login form
-app.post('/login', passport.authenticate('local-login', {
+app.post('/login',checkNotAuthenticated, passport.authenticate('local-login', {
         successRedirect : '/dashboard', // redirect to the secure profile section
         failureRedirect : '/login', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
@@ -381,7 +350,7 @@ app.post('/login', passport.authenticate('local-login', {
         console.log("hello");
 
         if (req.body.remember) {
-          req.session.cookie.maxAge = 1000 * 60 * 3;
+          req.session.cookie.maxAge = 1000 * 60 * 60;
         } else {
           req.session.cookie.expires = false;
         }
@@ -425,13 +394,13 @@ app.post('/login', passport.authenticate('local-login', {
 // SIGNUP ==============================
 // =====================================
 // show the signup form
-	app.get('/register', function(req, res) {
+	app.get('/register', checkNotAuthenticated,function(req, res) {
 		// render the page and pass in any flash data if it exists
 		res.render('register.ejs', { message: req.flash('signupMessage') });
 	});
 
 // process the signup form
-app.post('/register', passport.authenticate('local-signup', {
+app.post('/register', checkNotAuthenticated,passport.authenticate('local-signup', {
         successRedirect : '/dashboard', // redirect to the secure profile section 
         failureRedirect : '/register', // redirect back to the signup page if there is an error 
         failureFlash : true // allow flash messages
@@ -440,7 +409,7 @@ app.post('/register', passport.authenticate('local-signup', {
 
 
 // URL to get the dashboard page
-app.get('/dashboard',isLoggedIn, function(req,res){
+app.get('/dashboard',checkAuthenticated, function(req,res){
     // Create a table that will show product Id, name, price, image and sporting activity
   
         res.render('dashboard',{ name: req.user.username});
@@ -452,61 +421,30 @@ app.get('/dashboard',isLoggedIn, function(req,res){
 // =====================================
 // we will want this protected so you have to be logged in to visit
 // we will use route middleware to verify this (the isLoggedIn function)
-app.get('/profile',function(req, res) {
+app.get('/profile',checkAuthenticated, function(req, res) {
 	res.render('profile', {
 		user : req.user // get the user out of session and pass to template
 	});
 });
 
-// app.get('/profile', isLoggedIn, function(req, res){  // I have this restricted for admin just for proof of concept
-//  let sql = 'SELECT * FROM users'
-//   let query = connection.query(sql, (err, result) => {
-//     if(err) throw err;
-//     console.log(result);
-
-//     res.render('profile', {result});
-//   });
- 
-//   console.log("Now you are on the products page!");
-// });
-
-// app.get('/editprofile',function(req, res) {
-// // 	res.render('editprofile', {
-// // 		user : req.user // get the user out of session and pass to template
-		
-// // 	});
-//     res.render("editprofile"); // we set the response to send back the string hello world
-// console.log("Edit profile page"); 
-// });
-
-// // Edit Profile
-
+// Edit Profile
 app.get('/editprofile/:id', function(req, res){
     let sql = 'SELECT * FROM users WHERE Id = "'+req.params.id+'" ';
-  let query = connection.query(sql, (err, result) => {
+    let query = connection.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
-    
-    res.render('editprofile', {result}); // This will render the index.jade page for us
+    res.render('editprofile', {result}); // This will render the edit profile page for us
   });
-  
-    //res.send("Hello Lovely World"); // send the response as a string Hello World
     console.log("Edit profile worked");
-    
 });
-// // ***** Post new product to database
 
+// ***** Post new data to database
 app.post('/editprofile/:id', function(req, res){
-      let sql = 'UPDATE users SET username = "'+req.body.username+'", email = "'+req.body.email+'", password = "'+req.body.password+'" WHERE Id = "'+req.params.id+'"';
-   // let sql = 'UPDATE users SET username = ?, email = ?, password = ? WHERE Id = ?';
-
-  
-  let query = connection.query(sql, (err, result) => {
+    let sql = 'UPDATE users SET username = "'+req.body.username+'", email = "'+req.body.email+'", password = "'+req.body.password+'" WHERE Id = "'+req.params.id+'"';
+    let query = connection.query(sql, (err, result) => {
     if(err) throw err;
     console.log(result);
     console.log(result.affectedRows + " record(s) updated");
-    
-    
   });
   res.redirect("/profile");
   });
@@ -519,16 +457,43 @@ app.get('/logout', function(req, res) {
 	res.redirect('/');
 });
 
-// route middleware to make sure
-function isLoggedIn(req, res, next) {
 
-	// if user is authenticated in the session, carry on
-	if (req.isAuthenticated())
-		return next();
-
-	// if they aren't, redirect them to the home page
-	res.redirect('/products');
+function checkNotAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return res.redirect('/dashboard')
+  }
+  next()
 }
+
+function checkAuthenticated(req, res, next) {
+// if user is authenticated in the session, carry on
+  if (req.isAuthenticated()) {
+    return next()
+  }
+  // if they aren't, redirect them to the login page
+  res.redirect('/login')
+}
+
+
+app.get('/alter', function(req, res){
+let sql = 'ALTER TABLE users ADD COLUMN admin BOOLEAN DEFAULT FALSE;'
+let query = connection.query(sql, (err, res) => { if(err) throw err;
+console.log(res);
+}); res.send("altered"); });
+
+
+// function isAdmin(req, res, next) {
+//     //if user is authenticated i the session, carry on
+//     if(req.user.admin)
+//     return next();
+    
+//     //if thery aren't redirect them to the login page
+//     res.redirect('/login');
+    
+    
+    
+    
+// }
 
 
 
@@ -728,17 +693,3 @@ app.listen(process.env.PORT || 3000, process.env.IP || "0.0.0.0", function() {
 console.log("Yippee its running");
 
 });
-
-
-
-
-
-// // const port = 8080;
-
-// // app.listen(port, () => console.log(`Server started on port ${port}`));
-
-// // this code provides the server port for our application to run on
-// app.listen(process.env.PORT || 3000, process.env.IP || "0.0.0.0", function() {
-// console.log("Yippee its running");
-  
-// });

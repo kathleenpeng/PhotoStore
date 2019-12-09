@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-   <meta name="keywords" content="photostore,photo selling and photo upload">
-    <title>Photo Store</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://kit.fontawesome.com/dbd56f2afc.js"></script>
-    <link rel="stylesheet" type="text/css" href="../app.css">
+       <meta charset="UTF-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <meta http-equiv="X-UA-Compatible" content="ie=edge">
+       <meta name="keywords" content="photostore,photo selling and photo upload">
+        <title>Photo Store</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://kit.fontawesome.com/dbd56f2afc.js"></script>
+        <link rel="stylesheet" type="text/css" href="../app.css">
   </head>
   <body>
    <header>
@@ -21,38 +21,22 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="/products" >Images</a></li>
                 <!--<li><a href="/alluploadproducts">UI</a></li>-->
-                <li><a href="/cart">cart</a></li>
+                <!--<li><a href="/cart">Cart</a></li>-->
                 <!--<li><a href="/event"></a></li>-->
-                <li><a href="/contacts">c</a></li>
-                <li><a href="/upload">u</a></li>
-                <li><a href="/contactform">cf</a></li>
-                <li><a href="/profile">P</a></li>
-                <li><a href="/editprofile">EditProfile</a></li>
-                <li><a href="/event">e</a></li>
+                <li><a href="/event">Event</a></li>
+                <!--<li><a href="/contacts">Contacts</a></li>-->
+                <!--<li><a href="/upload">Upload Image</a></li>-->
+                <li><a href="/contactform">Contact</a></li>
+                <!--<li><a href="/profile">Profile</a></li>-->
+                <!--<li><a href="/editprofile">EditProfile</a></li>-->
+                
             </ul>
           </nav>
           <div class="register">
-               <a href="/cart"> 
-               <!--<i id="shoppingbasket" class="fas fa-shopping-cart"> -->
+         
+               <a href="/login">Login/Register</a>
               
-              <%// }); %>
-              
-              <% if (typeof cart !== "undefined") { %>
-              <%= cart.length %>
             
-              <% } else { %>
-              0
-              <% } %>
-              </i>
-              </a>
-              
-              
-              
-              
-              <a><i id="myButton" onclick="document.getElementById('id01').style.display='block'" class="fas fa-user-plus"></i></a>
-              <a href="/login">Login/Register</a>
-              
-              
               <div id="id01" class="modal">
                   
                   <div class="modal-content animate">
@@ -69,6 +53,7 @@
                         <h4><a href="/upload" >Upload Image</a></h4>
                         <h4><a href="/addproduct">Download Image</a></h4>
                         <h4><a href="/payment">Checkout</a></h4>
+                        <h4><a href="/contacts">Show Contacts</a></h4>
                         <h4><a href="/logout">Logout</a></h4>
                         </div>
                    

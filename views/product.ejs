@@ -1,7 +1,4 @@
 <% include ../partials/header %>
-
-   
-      
   <div class="container">
       <div class="contentrow">
           <% result.forEach(function(product) { %> 
@@ -14,7 +11,7 @@
              <p><b>Size:</b><%= product.size %></p>
              <p><b>Description: </b><%= product.activity %></p><br>
              
-             <a href="/login" class="button">Login to proceed</a> 
+             <a href="/login" id="more" class="button">Login to proceed</a> 
         </div>
         
          <% }); %>
@@ -23,11 +20,54 @@
         
    
 
+<script>
+// $(document).ready(function(){
+//  $('#more').click(function(){
+//   var productId = getProductId();
+//   console.log(productId);
+//  });
+//  function getProductId()
+//  {
+//  var productId= window.location.pathname.substr(9,6);
+//  }
+// })
 
- 
-  
-    
-    
+
+
+
+$(document).ready(function(){
+    $("#more").click(function(){
+        var productId = getProductId();
+        console.log(productId);
+        var url = "/cart/addCart";
+        $.ajax({
+            url:url,
+            data:{paintid:productId},
+            type:'post',
+            dataType:'json',
+            success:function(data)
+            {
+                if(data == "1")
+                {
+                    alert("Added to cart successfully！");
+                    $("#more").hide();
+                }
+            },
+            error:function(err)
+            {
+                window.location.href = "/login";
+            }
+        })
+    });
+    function getProductId()
+    {
+        var productId = window.location.pathname.substr(9,6);  //  to get productId
+        return productId;
+
+    }
+})
+
+</script>
     
      </div>
    
